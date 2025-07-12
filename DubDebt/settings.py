@@ -121,6 +121,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+# CSRF
+CSRF_TRUSTED_ORIGINS = ["https://dubdebt-634639548921.us-central1.run.app"]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

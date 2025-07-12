@@ -1,0 +1,6 @@
+<svg width="180" height="70" viewBox="0 0 340 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="18" rx="18" width="64" height="64" fill="#2186d4"/>
+  <path d="M31 60l17 17 25-31" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="86" y="60" font-family="Inter, Arial, sans-serif" font-weight="bold" font-size="44" fill="#14354d" letter-spacing="-1">dubdebt</text>
+  <text x="86" y="85" font-family="Inter, Arial, sans-serif" font-size="20" fill="#5ca6d4">pay it off, done.</text>
+</svg>

@@ -1,0 +1,56 @@
+{% extends "landing.html" %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'balance.css' %}">
+{% endblock %}
+
+{% block main %}
+<section class="balance-header">
+    <div class="greeting">
+        Hello, <span class="username">{{ user.name }}</span>
+    </div>
+    <div class="balance-amount">
+        Balance: <span class="amount">$-{{ user.balance|floatformat:2 }}</span>
+    </div>
+</section>
+
+<section class="debts-section">
+    <h2 class="debts-title">Your Debts</h2>
+    <div class="table-wrapper">
+        <table class="debts-table">
+            <thead>
+                <tr>
+                    <th>Creditor</th>
+                    <th>Amount</th>
+                    <th>Accrued Interest</th>
+                    <th>Date Incurred</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for debt in debts %}
+                <tr>
+                    <td>{{ debt.creditor }}</td>
+                    <td>${{ debt.amount|floatformat:2 }}</td>
+                    <td>${{ debt.interest|floatformat:2 }}</td>
+                    <td>{{ debt.date }}</td>
+                    <td>
+                        <a href="/dub/" class="btn-dub">Dub It!</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="no-debts">🎉 No debts found!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- Optional JS here -->
+{% endblock %}

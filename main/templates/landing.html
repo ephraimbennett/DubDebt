@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DubDebt – It's time to Dub your Debt</title>
+    <link rel="stylesheet" href="{% static 'landing.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{% static 'dubdebt_favicon.ico' %}">
+    {% block styles %} {% endblock %}
+</head>
+<body>
+    {% block scripts %} {% endblock %}
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="{% static 'logo.svg' %}" alt="DubDebt Logo" class="logo">
+            <span class="brand">DubDebt</span>
+        </div>
+        <ul class="navbar-links">
+            <li><a href="/" class="nav-link">Home</a></li>
+            <li><a href="/verify/" class="nav-link balance-link">My Balance</a></li>
+        </ul>
+    </nav>
+    {% block main %}
+    <main class="hero-section">
+        <div class="hero-content">
+            <h1 class="slogan">It's time to <span class="accent">Dub</span> your Debt</h1>
+            <p class="description">
+                Tired of shady collectors and confusing calls? We make it simple. 
+                Settle what you owe — online, in minutes. No pressure. No stress.
+            </p>
+            <a href="/verify/" class="btn-check-balance">Check my Balance</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://assets.softr-files.com/applications/1263f5c5-5c4a-4a64-8900-840c8d07d2e2/assets/b64b9490-63af-46ec-a0d3-78dabc7cf9e0.png" alt="Hero illustration" class="hero-img">
+        </div>
+    </main>
+
+    {% endblock %}
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>&copy; {{year|default:"2025"}} DubDebt. All rights reserved.</span>
+            <div class="footer-social">
+                <!-- Social media icons or links go here -->
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

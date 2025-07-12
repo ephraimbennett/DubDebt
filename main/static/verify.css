@@ -1,0 +1,102 @@
+:root {
+    --green: #32d06a;
+    --border: #e1e4e8;
+    --input-bg: #f7fafc;
+    --form-radius: 1.2em;
+    --form-width: 100%;
+    --form-max-width: 25em;
+}
+
+.verify-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    padding: 2em 1em;
+    min-height: 70vh;
+    justify-content: center;
+}
+
+.verify-form {
+    background: #fff;
+    border-radius: var(--form-radius);
+    box-shadow: 0 0.09em 1.3em rgba(30,34,37,0.07);
+    padding: 2em 1.1em 1.5em 1.1em;
+    width: var(--form-width);
+    max-width: var(--form-max-width);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+}
+
+.form-title {
+    font-size: 1.25em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    color: #1c232b;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+label {
+    font-size: 1em;
+    font-weight: 500;
+    color: #23272f;
+}
+
+input[type="text"], input[type="tel"] {
+    padding: 0.7em 1em;
+    font-size: 1em;
+    border: 0.08em solid var(--border);
+    border-radius: 0.6em;
+    background: var(--input-bg);
+    color: #23272f;
+    outline: none;
+    transition: border 0.15s;
+}
+
+input:focus {
+    border-color: var(--green);
+}
+
+.helper-text {
+    font-size: 0.95em;
+    color: #8492a6;
+    margin-top: 0.1em;
+}
+
+.btn-primary {
+    margin-top: 0.5em;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 2em;
+    font-size: 1.05em;
+    font-weight: 600;
+    padding: 0.8em 2em;
+    cursor: pointer;
+    box-shadow: 0 0.09em 0.4em rgba(50,208,106,0.07);
+    transition: background 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary:hover {
+    background: #28ba5b;
+    box-shadow: 0 0.12em 0.6em rgba(50,208,106,0.13);
+}
+
+@media (min-width: 42em) { /* ~672px */
+    .verify-wrapper {
+        flex-direction: row;
+        gap: 3.5em;
+        padding: 3em 2em;
+    }
+    .verify-form {
+        padding: 2.5em 2em 2em 2em;
+        gap: 1.5em;
+        min-width: 20em;
+    }
+}

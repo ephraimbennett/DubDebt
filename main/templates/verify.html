@@ -1,0 +1,48 @@
+{% extends "landing.html" %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'verify.css' %}">
+{% endblock %}
+
+{% block main %}
+<section class="verify-wrapper">
+    <form id="phone-form" autocomplete="off" class="verify-form">
+        {% csrf_token %}
+        <h2 class="form-title">Get your verification code</h2>
+        <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input name="first_name" id="first_name" type="text" required maxlength="30" placeholder="John">
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input name="last_name" id="last_name" type="text" required maxlength="30" placeholder="Doe">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input name="phone" id="phone" type="tel" required 
+                   pattern="^(\+1\s?)?\(?[2-9][0-9]{2}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}$"
+                   inputmode="tel"
+                   placeholder="(555) 123-4567"
+                   autocomplete="tel">
+            <small class="helper-text">US numbers only, e.g. (555) 123-4567</small>
+        </div>
+        <button type="submit" class="btn-primary">Send Code</button>
+    </form>
+
+    <form method="post" autocomplete="off" id="code-form" class="verify-form code-form">
+        {% csrf_token %}
+        <h2 class="form-title">Verify to see balance</h2>
+        <div class="form-group">
+            <label for="code">Verification Code</label>
+            <input name="code" id="code" type="text" required maxlength="12" placeholder="Enter code">
+        </div>
+        <button class="btn-primary">Verify</button>
+    </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'verify.js' %}"></script>
+{% endblock %}

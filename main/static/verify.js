@@ -29,7 +29,7 @@ function getCookie(name) {
 function verifyCode() {
     csrftoken = getCookie('csrftoken');
     code = document.getElementById('code').value.trim();
-    fetch('/verify/', {
+    fetch('/main/verify/', {
         method: 'POST',
         headers: {
             'X-CSRFToken': csrftoken,
@@ -45,7 +45,7 @@ function verifyCode() {
         // Handle success
         console.log(data)
         if (data.success) {
-            window.location.href = "/balance/";
+            window.location.href = "/main/balance/";
             console.log("huh");
         } else {
             alert("Not valid code!");

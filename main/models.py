@@ -41,6 +41,8 @@ class Debt(models.Model):
 
     unique_code = models.CharField(max_length=12, unique=True, blank=True, null=True)
 
+    is_settled = models.BooleanField(default=False)
+
     def save(self, *args, **kwargs):
         if not self.unique_code:
             self.unique_code = uuid.uuid4().hex[:12].upper()  # 12-char code, easy to type

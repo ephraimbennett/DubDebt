@@ -75,9 +75,10 @@ def pay_debt(request, code):
 
 @csrf_exempt
 def stripe_webhook(request):
+    print("THIS IS HIT")
     payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = settings.STRIPE_SECRET_KEY
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
     event = None
 
     try:
@@ -91,6 +92,10 @@ def stripe_webhook(request):
 
     # Handle the event
     if event['type'] == 'checkout.session.completed':
-        print("SUCCESSSSSSS")
+        session = event['data']['object']
+        debt_code = session['metadata'].get('debt_id')
+        Debt.objects.filter(unique_code=debt_code).update(is_settled=True)
+        print("Settled the debt", debt_code)
+
 
     return HttpResponse(status=200)

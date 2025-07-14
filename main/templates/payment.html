@@ -1,0 +1,70 @@
+{% extends "landing.html" %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'payment.css' %}">
+{% endblock %}
+
+{% block main %}
+<section class="payment-wrapper">
+    <div class="debt-card">
+        <div class="debt-header">
+            <div>
+                <span class="section-label">Paying as:</span>
+                <span class="debtor-name">{{ debt.debtor }}</span>
+            </div>
+            <div class="faq-tooltip">
+                <span class="faq-icon" tabindex="0">?</span>
+                <span class="faq-content">
+                    Payments are processed securely through Stripe. 
+                    Your balance will be updated as soon as the transaction completes.
+                </span>
+            </div>
+        </div>
+        <div class="creditor-row">
+            <span class="section-label">To:</span>
+            <span class="creditor-name">{{ debt.creditor_name }}</span>
+        </div>
+        <div class="amounts">
+            <div>
+                <span class="label">Principal:</span>
+                <span>${{ debt.amount|floatformat:2 }}</span>
+            </div>
+            <div>
+                <span class="label">Interest:</span>
+                <span>${{ debt.interest|floatformat:2 }}</span>
+            </div>
+            <div class="total-row">
+                <span class="label">Total Due:</span>
+                <span class="total">${{ debt.amount|add:debt.interest|floatformat:2 }}</span>
+            </div>
+        </div>
+        <div class="dates">
+            <div>
+                <span class="label">Date Incurred:</span>
+                <span>{{ debt.incur_date }}</span>
+            </div>
+            <div>
+                <span class="label">Due Date:</span>
+                <span>{{ debt.due_date }}</span>
+            </div>
+        </div>
+        <div class="desc-row">
+            <span class="label">Description:</span>
+            <span class="desc-content">{{ debt.description|linebreaksbr }}</span>
+        </div>
+        <div class="action-row">
+            <a href="{% url 'pay_route' debt.unique_code %}" class="btn-pay">
+                <span class="lock-icon" aria-hidden="true">&#128274;</span>
+                Settle with Stripe
+            </a>
+            <a href="{% url 'balance' %}" class="cancel-link">Cancel</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- No scripts needed for FAQ tooltip (pure CSS). -->
+{% endblock %}

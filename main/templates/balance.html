@@ -37,7 +37,7 @@
                     <td>${{ debt.interest|floatformat:2 }}</td>
                     <td>{{ debt.date }}</td>
                     <td>
-                        <a href="/dub/" class="btn-dub">Dub It!</a>
+                        <a href="/payment/{{ debt.unique_code }}" class="btn-dub">Dub It!</a>
                     </td>
                 </tr>
                 {% empty %}

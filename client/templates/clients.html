@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DubDebt | Collect your unpaid fees faster than ever</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="DubDebt lets you collect unpaid fees from your clients faster, smarter, and stress-free. Modern SaaS platform for businesses of all sizes.">
+    <link rel="stylesheet" href="{% static 'css/clients.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600,800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <script src="{% static 'js/client.js' %}"></script>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <img src="{% static 'logo.svg' %}" alt="DubDebt logo" class="navbar-logo">
+                <span class="navbar-brand">DubDebt</span>
+                <button id="hamburger" class="hamburger" aria-label="Open navigation" aria-expanded="false"
+                    aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <ul class="navbar-links">
+                <li><a href="#" class="navbar-link">Solutions</a></li>
+                <li><a href="#" class="navbar-link">Pricing</a></li>
+                <li><a href="#" class="navbar-link">Resources</a></li>
+                <!-- Add more links as needed -->
+            </ul>
+            <div class="navbar-right">
+                <a href="/login/" class="navbar-link login-link">Login</a>
+                <a href="/signup/" class="navbar-link try-link">Try for free</a>
+            </div>
+        </div>
+        <!-- Mobile Full-Screen Menu Overlay -->
+        <div id="mobile-menu" class="mobile-menu-overlay" tabindex="-1" aria-hidden="true">
+            <div class="mobile-menu-content">
+                <button class="close-mobile-menu" aria-label="Close menu">&times;</button>
+                <ul class="mobile-links">
+                    <li><a href="#" class="mobile-link">Solutions</a></li>
+                    <li><a href="#" class="mobile-link">Pricing</a></li>
+                    <li><a href="#" class="mobile-link">Resources</a></li>
+                </ul>
+                <a href="/signup/" class="mobile-btn mobile-btn-primary">Try for free</a>
+                <a href="/login/" class="mobile-btn mobile-btn-secondary">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero/Main Section -->
+    <main>
+        <section class="hero-section">
+            <div class="hero-text">
+                <h1 class="hero-header">
+                    Collect your unpaid fees<br>
+                    <span class="accent">faster than ever.</span>
+                </h1>
+                <p class="hero-desc">
+                    DubDebt is the modern way for businesses to automate debt recovery, improve collections, and empower
+                    your clients with easy, online repayment. No more phone tag or lost invoices—just results.
+                </p>
+                <div class="hero-actions">
+                    <a href="/signup/" class="btn btn-primary">Try for free</a>
+                    <a href="/contact/" class="btn btn-secondary">Contact us</a>
+                </div>
+            </div>
+            <div class="hero-media">
+                <!-- Replace below with your SVG/illustration/video as needed -->
+                <img src="{% static 'logo.svg' %}" alt="DubDebt SaaS Hero" class="hero-image">
+            </div>
+        </section>
+        <section class="below-hero">
+            <!-- Future content here, e.g. features, testimonials, logos, etc. -->
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>&copy; {{year|default:"2025"}} DubDebt. All rights reserved.</span>
+            <div class="footer-links">
+                <a href="/privacy/">Privacy Policy</a>
+                <a href="/terms/">Terms</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

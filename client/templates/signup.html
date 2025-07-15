@@ -1,0 +1,94 @@
+{% extends "clients.html" %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block main %}
+<main class="login-main">
+    <section class="login-card">
+        <h1 class="login-title">Create your DubDebt account</h1>
+        <form method="post" class="login-form" autocomplete="off" action="{% url 'signup' %}">
+            {% csrf_token %}
+            {% if errors %}
+                <div class="form-error-multi">
+                    <ul>
+                        
+                        <li>{{ errors }}</li>
+                    </ul>
+                </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label for="first_name">First name</label>
+                <input type="text" id="first_name" name="first_name" required autocomplete="given-name">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last name</label>
+                <input type="text" id="last_name" name="last_name" required autocomplete="family-name">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone number </label>
+                <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="(555) 123-4567">
+            </div>
+            <div class="form-group password-group">
+                <label for="password">Password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="password1" name="password1" required autocomplete="new-password">
+                    <button type="button" id="toggle-password" class="toggle-password" aria-label="Show password">
+                        <img id="eye-open" src="{% static 'images/eye_open.svg' %}" alt="" style="display:inline;">
+                        <img id="eye-closed" src="{% static 'images/eye_closed.svg' %}" alt="" style="display:none;">
+                    </button>
+                </div>
+            </div>
+            <div class="form-group password-group">
+                <label for="confirm_password">Confirm password</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="password2" name="password2" required autocomplete="new-password">
+                    <button type="button" id="toggle-confirm-password" class="toggle-password" aria-label="Show password">
+                        <img id="eye2-open" src="{% static 'images/eye_open.svg' %}" alt="" style="display:inline;">
+                        <img id="eye2-closed" src="{% static 'images/eye_closed.svg' %}" alt="" style="display:none;">
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn-login">Create account</button>
+        </form>
+        <div class="oauth-section">
+            <div class="oauth-label">or sign up with</div>
+            <!-- OAuth providers go here -->
+            <div class="oauth-placeholder"></div>
+        </div>
+        <div class="login-extra">
+            Already have an account?
+            <a href="{% url 'login' %}">Sign in</a>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function setupToggle(pwId, btnId, eyeOpenId, eyeClosedId) {
+        const passwordInput = document.getElementById(pwId);
+        const toggleBtn = document.getElementById(btnId);
+        const eyeOpen = document.getElementById(eyeOpenId);
+        const eyeClosed = document.getElementById(eyeClosedId);
+        toggleBtn.addEventListener('click', function() {
+            const isPassword = passwordInput.type === "password";
+            passwordInput.type = isPassword ? "text" : "password";
+            toggleBtn.setAttribute('aria-label', isPassword ? "Hide password" : "Show password");
+            eyeOpen.style.display = isPassword ? "none" : "inline";
+            eyeClosed.style.display = isPassword ? "inline" : "none";
+        });
+    }
+    setupToggle('password', 'toggle-password', 'eye-open', 'eye-closed');
+    setupToggle('confirm_password', 'toggle-confirm-password', 'eye2-open', 'eye2-closed');
+});
+</script>
+{% endblock %}

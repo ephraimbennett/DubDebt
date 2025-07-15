@@ -4,12 +4,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>DubDebt | Collect your unpaid fees faster than ever</title>
+    <title>{% block title %}DubDebt | Collect your unpaid fees faster than ever{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
         content="DubDebt lets you collect unpaid fees from your clients faster, smarter, and stress-free. Modern SaaS platform for businesses of all sizes.">
     <link rel="stylesheet" href="{% static 'css/clients.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600,800&display=swap" rel="stylesheet">
+
+    {% block styles %} {% endblock %}
 </head>
 
 <body>
@@ -35,8 +37,12 @@
                 <!-- Add more links as needed -->
             </ul>
             <div class="navbar-right">
-                <a href="/login/" class="navbar-link login-link">Login</a>
-                <a href="/signup/" class="navbar-link try-link">Try for free</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="navbar-link">Log out</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="navbar-link">Log in</a>
+                <a href="{% url 'signup' %}" class="navbar-link try-link">Signup</a>
+                {% endif %}
             </div>
         </div>
         <!-- Mobile Full-Screen Menu Overlay -->
@@ -54,6 +60,7 @@
         </div>
     </nav>
 
+    {% block main %}
     <!-- Hero/Main Section -->
     <main>
         <section class="hero-section">
@@ -80,6 +87,8 @@
             <!-- Future content here, e.g. features, testimonials, logos, etc. -->
         </section>
     </main>
+
+    {% endblock %}
 
     <footer class="footer">
         <div class="footer-content">

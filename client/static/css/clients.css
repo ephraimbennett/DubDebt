@@ -43,7 +43,7 @@ a {
 }
 
 .navbar {
-    width: 100vw;
+    width: 100%;
     background: var(--navbar-bg);
     box-shadow: 0 0.05em 0.3em rgba(30,34,37,0.05);
     padding: 0.8em 1.2em;
@@ -51,7 +51,6 @@ a {
     top: 0;
     z-index: 99;
     min-height: 3.5em;
-    overflow-x: auto;
 }
 
 .navbar-container {

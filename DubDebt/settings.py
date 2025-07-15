@@ -123,7 +123,8 @@ USE_I18N = True
 USE_TZ = True
 
 # CSRF
-CSRF_TRUSTED_ORIGINS = ["https://dubdebt-634639548921.us-central1.run.app"]
+CSRF_TRUSTED_ORIGINS = ["https://dubdebt-634639548921.us-central1.run.app", "https://dubdebt.com", 
+                        "https://www.dubdebt.com"]
 
 
 # Static files (CSS, JavaScript, Images)

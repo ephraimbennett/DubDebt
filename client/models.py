@@ -34,7 +34,7 @@ class Member(AbstractBaseUser, PermissionsMixin) :
     email = models.EmailField(("email address"), unique=True)
     password = models.CharField(max_length=255)
     joined_date = models.DateField(auto_now_add=True)
-    phone = models.IntegerField(null=True)
+    phone = models.CharField(max_length=20, null=True)
     status = models.BooleanField(default=False)
 
     is_staff = models.BooleanField(default=False)

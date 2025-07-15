@@ -4,7 +4,7 @@ from django import forms
 from .models import Member
 
 class MemberCreationForm(UserCreationForm):
-    phone = forms.IntegerField(required=False)
+    phone = forms.CharField(required=False)
     class Meta:
         model = Member
         fields = ("email", "password1", "password2", "phone", "status")

@@ -7,10 +7,11 @@
 {% endblock %}
 
 {% block main %}
+<script src="{% static 'js/signup.js' %}"></script>
 <main class="login-main">
     <section class="login-card">
         <h1 class="login-title">Create your DubDebt account</h1>
-        <form method="post" class="login-form" autocomplete="off" action="{% url 'signup' %}">
+        <form method="post" class="login-form" autocomplete="off">
             {% csrf_token %}
             {% if errors %}
                 <div class="form-error-multi">
@@ -69,26 +70,4 @@
         </div>
     </section>
 </main>
-{% endblock %}
-
-{% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    function setupToggle(pwId, btnId, eyeOpenId, eyeClosedId) {
-        const passwordInput = document.getElementById(pwId);
-        const toggleBtn = document.getElementById(btnId);
-        const eyeOpen = document.getElementById(eyeOpenId);
-        const eyeClosed = document.getElementById(eyeClosedId);
-        toggleBtn.addEventListener('click', function() {
-            const isPassword = passwordInput.type === "password";
-            passwordInput.type = isPassword ? "text" : "password";
-            toggleBtn.setAttribute('aria-label', isPassword ? "Hide password" : "Show password");
-            eyeOpen.style.display = isPassword ? "none" : "inline";
-            eyeClosed.style.display = isPassword ? "inline" : "none";
-        });
-    }
-    setupToggle('password', 'toggle-password', 'eye-open', 'eye-closed');
-    setupToggle('confirm_password', 'toggle-confirm-password', 'eye2-open', 'eye2-closed');
-});
-</script>
 {% endblock %}

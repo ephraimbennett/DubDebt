@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 
 from .forms import MemberCreationForm
+from .models import Member
 
 # Create your views here.
 def clients(request):
@@ -12,6 +12,7 @@ def login_user(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        print(email, password)
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
@@ -32,6 +33,7 @@ def signup(request):
             form.save()
             user = authenticate(request, email=form.cleaned_data['email'], password=form.cleaned_data['password1'])
             login(request, user)
+            return redirect('/')
         else:
             errors = {}
             return render(request, 'signup.html', {

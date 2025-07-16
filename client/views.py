@@ -18,7 +18,7 @@ def login_user(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/')
+            return redirect('/profile-edit/')
         else:
             return render(request, "login.html", {
                 'error' : "Invalid email or password.",
@@ -35,7 +35,7 @@ def signup(request):
             form.save()
             user = authenticate(request, email=form.cleaned_data['email'], password=form.cleaned_data['password1'])
             login(request, user)
-            return redirect('/')
+            return redirect('/profile-edit/')
         else:
             errors = {}
             return render(request, 'signup.html', {

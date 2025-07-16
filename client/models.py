@@ -58,6 +58,9 @@ class Address(models.Model):
     state_province = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.street_address}|{self.city}|{self.state_province}|{self.postal_code}|{self.country}"
     
 
 class Profile(models.Model):
@@ -71,3 +74,6 @@ class Profile(models.Model):
     emails = ArrayField(models.CharField(max_length=100), default=list)
 
     intent = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user.email

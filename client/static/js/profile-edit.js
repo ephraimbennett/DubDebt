@@ -133,6 +133,15 @@ document.addEventListener('DOMContentLoaded', function () {
             intentCount.textContent = intent.value.length;
         });
     }
+
+    // FORM EVENT HANDLER
+    const form = document.getElementById('profile-form');
+    form.addEventListener('submit', (event) => {
+        if (emailList.getElementsByTagName('input').length == 0) {
+            emailError.textContent = "At least one email is required.";
+            event.preventDefault();
+        }
+    });
 });
 
 

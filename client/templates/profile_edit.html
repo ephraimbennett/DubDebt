@@ -1,0 +1,103 @@
+{% extends "clients.html" %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/profile-edit.css' %}">
+{% endblock %}
+
+{% block main %}
+<script src="{% static 'js/profile-edit.js' %}"></script>
+<main class="profile-main">
+    <form method="post" class="profile-form" autocomplete="off" id="profile-form">
+        {% csrf_token %}
+        <div class="profile-actions">
+            <button type="submit" class="btn-save">Save Changes</button>
+        </div>
+        <section class="profile-section">
+            <h2>Business Info</h2>
+            <div class="form-group">
+                <label for="business_name">Business Name</label>
+                <input type="text" id="business_name" name="business_name" required maxlength="200"
+                       value="{{ profile.business_name|default_if_none:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="contact_number">Contact Number</label>
+                <input type="tel" id="contact_number" name="contact_number" maxlength="20"
+                       value="{{ profile.contact_number|default_if_none:'' }}">
+            </div>
+        </section>
+
+        <section class="profile-section">
+            <h2>Emails</h2>
+            <div id="email-list">
+                {% for email in emails %}
+                <div class="email-item">
+                    <input type="email" name="emails" value="{{ email }}" required>
+                    <button type="button" class="btn-remove-email" aria-label="Remove email">&times;</button>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="email-add-row">
+                <input type="email" id="new-email-input" placeholder="Add another email">
+                <button type="button" id="add-email-btn" class="btn-add-email">Add Email</button>
+            </div>
+            <div class="input-error" id="email-error"></div>
+        </section>
+
+        <section class="profile-section">
+            <h2>Addresses</h2>
+            <div id="addresses-list">
+                {% for address in addresses %}
+                <div class="address-card" data-idx="{{ forloop.counter0 }}">
+                    <div class="address-fields">
+                        <span class="address-line">{{ address.street_address }}</span>,
+                        <span class="address-line">{{ address.city }}</span>,
+                        <span class="address-line">{{ address.state_province }}</span>
+                        <span class="address-line">{{ address.postal_code }}</span>,
+                        <span class="address-line">{{ address.country }}</span>
+                    </div>
+                    <div class="address-actions">
+                        <button type="button" class="btn-edit-address" aria-label="Edit address">Edit</button>
+                        <button type="button" class="btn-remove-address" aria-label="Remove address">&times;</button>
+                    </div>
+                    <!-- Hidden inputs for backend; will be updated if edited -->
+                    <input type="hidden" name="addresses" value="{{ address.street_address }}|{{ address.city }}|{{ address.state_province }}|{{ address.postal_code }}|{{ address.country }}">
+                </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-address-btn" class="btn-add-address">Add Address</button>
+            <div id="address-editor" class="address-editor" style="display:none;">
+                <div class="form-group-row">
+                    <input type="text" id="addr_street" placeholder="Street" required>
+                    <input type="text" id="addr_city" placeholder="City" required>
+                </div>
+                <div class="form-group-row">
+                    <input type="text" id="addr_state" placeholder="State/Province" required>
+                    <input type="text" id="addr_postal" placeholder="Postal Code" required>
+                    <input type="text" id="addr_country" placeholder="Country" required>
+                </div>
+                <div class="address-editor-actions">
+                    <button type="button" id="save-address-btn" class="btn-save-address">Save</button>
+                    <button type="button" id="cancel-address-btn" class="btn-cancel-edit">Cancel</button>
+                </div>
+            </div>
+            <div class="input-error" id="address-error"></div>
+        </section>
+
+        <section class="profile-section">
+            <h2>Intent</h2>
+            <div class="form-group">
+                <label for="intent">Describe your goals, use case, or anything you'd like us to know</label>
+                <textarea id="intent" name="intent" maxlength="2000" rows="5">{{ profile.intent|default_if_none:'' }}</textarea>
+                <div class="intent-counter">
+                    <span id="intent-count">0</span> / 2000 characters
+                </div>
+            </div>
+        </section>
+        <div class="profile-actions">
+            <button type="submit" class="btn-save">Save Changes</button>
+        </div>
+    </form>
+</main>
+{% endblock %}

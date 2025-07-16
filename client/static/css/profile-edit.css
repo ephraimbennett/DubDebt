@@ -1,0 +1,260 @@
+:root {
+    --green: #32d06a;   
+    --orange: #008cff;
+    --danger: #de3641;
+    --gray-bg: #f7f9fb;
+    --card-bg: #fff;
+}
+
+.profile-main {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--gray-bg);
+    padding: 2em 0;
+}
+
+.profile-form {
+    background: var(--card-bg);
+    border-radius: 1.1em;
+    box-shadow: 0 0.12em 1.2em rgba(30,34,37,0.09);
+    width: 100%;
+    max-width: 36em;
+    padding: 2.3em 1.2em 2.8em 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: -1.5em;
+    margin-top: 0.5em;
+}
+
+.btn-save {
+    background: var(--orange);
+    color: #fff;
+    border: none;
+    border-radius: 2em;
+    font-weight: 700;
+    font-size: 1.1em;
+    padding: 0.85em 2.2em;
+    cursor: pointer;
+    transition: background 0.14s;
+    margin-left: 1em;
+}
+.btn-save:hover, .btn-save:focus {
+    background: #2704d4;
+}
+
+.profile-section {
+    margin-bottom: 1em;
+    padding-bottom: 1.3em;
+    border-bottom: 0.07em solid #e4e9ee;
+}
+
+.profile-section:last-child {
+    border-bottom: none;
+}
+
+.profile-section h2 {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: #23272f;
+    font-weight: 700;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.38em;
+    margin-bottom: 1.1em;
+}
+
+label {
+    font-size: 1em;
+    color: #374151;
+    font-weight: 600;
+    margin-bottom: 0.13em;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], textarea {
+    width: 100%;
+    padding: 0.8em 1em;
+    border-radius: 0.7em;
+    border: 0.09em solid #e2e8f0;
+    background: #f7fafc;
+    font-size: 1.07em;
+    transition: border 0.14s;
+    outline: none;
+    margin-bottom: 0.1em;
+}
+
+input:focus, textarea:focus {
+    border: 0.09em solid var(--green);
+}
+
+textarea {
+    min-height: 5em;
+    resize: vertical;
+}
+
+.intent-counter {
+    font-size: 0.97em;
+    color: #7a8188;
+    text-align: right;
+    margin-top: 0.3em;
+}
+
+.input-error {
+    color: var(--danger);
+    font-size: 0.97em;
+    margin-top: 0.2em;
+    min-height: 1.1em;
+}
+
+.optional-label {
+    font-size: 0.95em;
+    color: #aaa;
+    font-weight: 400;
+}
+
+#email-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+    margin-bottom: 0.7em;
+}
+.email-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+}
+.btn-remove-email {
+    background: none;
+    border: none;
+    color: var(--danger);
+    font-size: 1.6em;
+    cursor: pointer;
+    padding: 0.15em 0.45em;
+    border-radius: 1.3em;
+    transition: background 0.12s;
+}
+.btn-remove-email:hover, .btn-remove-email:focus {
+    background: #f8e0e2;
+}
+
+.email-add-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-top: 0.1em;
+}
+.btn-add-email {
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 1.2em;
+    font-weight: 600;
+    font-size: 1em;
+    padding: 0.6em 1.4em;
+    cursor: pointer;
+    transition: background 0.13s;
+}
+.btn-add-email:hover, .btn-add-email:focus {
+    background: #2ab85e;
+}
+
+/* Addresses section */
+#addresses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin-bottom: 1em;
+}
+.address-card {
+    background: #f6f8fa;
+    border-radius: 0.8em;
+    padding: 1em;
+    box-shadow: 0 0.06em 0.22em rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+}
+.address-actions {
+    display: flex;
+    gap: 1em;
+    margin-top: 0.2em;
+}
+.btn-edit-address,
+.btn-save-address {
+    background: var(--orange);
+    color: #fff;
+    border: none;
+    border-radius: 1.2em;
+    font-weight: 600;
+    font-size: 0.98em;
+    padding: 0.5em 1.5em;
+    cursor: pointer;
+    transition: background 0.13s;
+}
+.btn-edit-address:hover, .btn-edit-address:focus,
+.btn-save-address:hover, .btn-save-address:focus {
+    background: #d45e04;
+}
+.btn-remove-address, .btn-cancel-edit {
+    background: none;
+    border: none;
+    color: var(--danger);
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 1.2em;
+    padding: 0.2em 0.5em;
+    margin-left: 0.1em;
+    transition: background 0.12s;
+}
+.btn-remove-address:hover, .btn-remove-address:focus,
+.btn-cancel-edit:hover, .btn-cancel-edit:focus {
+    background: #f8e0e2;
+}
+
+.btn-add-address {
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 1.2em;
+    font-weight: 600;
+    font-size: 1em;
+    padding: 0.6em 1.6em;
+    cursor: pointer;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    transition: background 0.13s;
+}
+.btn-add-address:hover, .btn-add-address:focus {
+    background: #2ab85e;
+}
+.address-edit-form {
+    background: #f7fafc;
+    border-radius: 0.7em;
+    padding: 1em 0.7em;
+    margin-top: 0.6em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+    box-shadow: 0 0.06em 0.22em rgba(0,0,0,0.03);
+}
+.address-edit-form input[type="text"] {
+    margin-bottom: 1em;
+}
+@media (min-width: 34em) {
+    .profile-form {
+        padding: 2.9em 2.8em 3.4em 2.8em;
+    }
+    .profile-section h2 {
+        font-size: 1.27em;
+    }
+}

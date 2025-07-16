@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.postgres.fields import ArrayField
+
 
 
 # Create your models here.
@@ -47,3 +49,25 @@ class Member(AbstractBaseUser, PermissionsMixin) :
 
     def __str__(self):
         return f"{self.email}"
+    
+class Address(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='addresses')
+
+    street_address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    state_province = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    country = models.CharField(max_length=100)
+    
+
+class Profile(models.Model):
+    user = models.OneToOneField(Member, on_delete=models.CASCADE)
+
+    business_name = models.CharField(max_length=200, default="")
+    
+
+    contact_number = models.CharField(max_length=20, default="")
+
+    emails = ArrayField(models.CharField(max_length=100), default=list)
+
+    intent = models.TextField(null=True, blank=True)

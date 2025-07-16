@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Member
 from django.contrib.auth.admin import UserAdmin
 from .forms import MemberChangeForm, MemberCreationForm
-from .models import Member
+from .models import Member, Profile, Address
 
 class MemberAdmin(UserAdmin):
     # Set the forms for a member
@@ -33,3 +33,5 @@ class MemberAdmin(UserAdmin):
     readonly_fields = ('joined_date',)
 
 admin.site.register(Member, MemberAdmin)
+admin.site.register(Profile)
+admin.site.register(Address)

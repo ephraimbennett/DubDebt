@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 
 from .forms import MemberCreationForm
-from .models import Member
+from .models import Member, Profile
 
 # Create your views here.
 def clients(request):
@@ -42,3 +44,12 @@ def signup(request):
             })
 
     return render(request, "signup.html")
+
+@login_required
+def profile_edit(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    context = {
+        'profile': profile,
+        'addresses': profile.addresses.all()
+    }
+    return render(request, "profile_edit.html", context)

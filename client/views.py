@@ -45,6 +45,12 @@ def signup(request):
     return render(request, "signup.html")
 
 @login_required
+def portal(request):
+
+    context = getPortalContext(request)
+    return render(request, "portal_base.html", context)
+
+@login_required
 def profile_edit(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     adresses_o = profile.addresses.all()
@@ -76,7 +82,19 @@ def profile_edit(request):
         'addresses': adresses_o,
         'emails': profile.emails
     }
+    context.update(getPortalContext(request))
     return render(request, "profile_edit.html", context)
+
+def getPortalContext(request):
+    user = request.user
+    profile, created = Profile.objects.get_or_create(user=user)
+
+    return {
+        'amount_collected': 10.0,
+        'dubscore': 100,
+        'business_name': profile.business_name,
+        'user': user
+    }
 
 def is_new_address(a, current):
     for c in current:

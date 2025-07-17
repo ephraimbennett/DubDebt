@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}DubDebt Portal{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600,800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{% static 'dubdebt_favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/portal-base.css' %}">
+    {% block styles %}
+
+    {% endblock %}
+</head>
+
+<body>
+    <script src="{% static 'js/portal-base.js' %}"></script>
+    <div class="portal-root">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="{% static 'logo.svg' %}" alt="DubDebt Logo">
+                <span class="sidebar-brand">DubDebt</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{% url 'portal-dashboard' %}"
+                    class="sidebar-link{% if section == 'dashboard' %} active{% endif %}">Dashboard</a>
+                <a href="{% url 'portal-debtors' %}"
+                    class="sidebar-link{% if section == 'debtors' %} active{% endif %}">Debtors</a>
+                <a href="{% url 'portal-payments' %}"
+                    class="sidebar-link{% if section == 'payments' %} active{% endif %}">Payment Portal</a>
+                <a href="{% url 'portal-selloff' %}"
+                    class="sidebar-link{% if section == 'selloff' %} active{% endif %}">Sell Off</a>
+                <a href="{% url 'portal-support' %}"
+                    class="sidebar-link{% if section == 'support' %} active{% endif %}">Support</a>
+                <a href="{% url 'portal-settings' %}"
+                    class="sidebar-link{% if section == 'settings' %} active{% endif %}">Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Area -->
+        <div class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <span class="business-name">{{ business_name|default:"Business" }}</span>
+                </div>
+                <div class="topbar-center">
+                    <span class="stat-label">Amount Collected</span>
+                    <span class="stat-value">${{ amount_collected|default:"0.00" }}</span>
+                    <span class="stat-label">DubScore</span>
+                    <span class="stat-value">{{ dubscore|default:"–" }}</span>
+                </div>
+                <div class="topbar-right">
+                    <div class="user-menu" tabindex="0">
+                        <span class="user-avatar">
+                            <img src="{% static 'images/avatar.svg' %}" alt="User avatar">
+                        </span>
+                        <span class="user-name">{{ user.email|default:user.email }}</span>
+                        <svg class="user-menu-arrow" width="16" height="16" fill="none" viewBox="0 0 16 16">
+                            <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                        </svg>
+                        <div class="user-menu-dropdown" tabindex="-1">
+                            <a href="{% url 'profile-edit' %}">Profile</a>
+                            <a href="{% url 'portal-settings' %}">Settings</a>
+                            <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+                                <button type="submit">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="workspace">
+                {% block main %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+</html>

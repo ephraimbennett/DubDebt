@@ -99,3 +99,11 @@ def stripe_webhook(request):
 
 
     return HttpResponse(status=200)
+
+@csrf_exempt
+def sms_send_view(request):
+    data = json.loads(request.body)
+    debtor_id = data['debtor_id']
+    message_type = data['message_type']
+    # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status
+    print(f"THIS IS A TASK QUERY TO SEND AN SMS OBJECT TO USER {debtor_id}")

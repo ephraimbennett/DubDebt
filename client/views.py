@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.serializers import serialize
+
+
+import json
 
 
 from .forms import MemberCreationForm
 from .models import Member, Profile, Address
+from main.models import Creditor, Debt, Debtor
 
 # Create your views here.
 def clients(request):
@@ -51,6 +56,35 @@ def portal(request):
     return render(request, "portal_base.html", context)
 
 @login_required
+def portal_debtors(request):
+    profile = Profile.objects.get(user=request.user)
+    creditors = profile.creditors.all()
+    debts_json = ""
+    debts = []
+    for creditor in creditors:
+        debts.extend(list(creditor.debts.all()))
+
+    debts_json = serialize('json', creditor.debts.all())
+
+    debtors = []
+    for debt in debts:
+        #print(type(debt.debtor)) -- this line confirmed debt.debtor is a <class 'main.models.Debtor'>
+        #debtors_json += (serialize('json', [debt.debtor])) # this line fails
+        debtors.append(debt.debtor)
+    
+    debtors_json = serialize('json', debtors)
+    print(debtors_json)
+
+    context = {
+        'debts_json': debts_json,
+        'debtors_json': debtors_json
+    }
+
+    context.update(getPortalContext(request))
+
+    return render(request, "portal_debtors.html", context)
+
+@login_required
 def profile_edit(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     adresses_o = profile.addresses.all()
@@ -63,6 +97,12 @@ def profile_edit(request):
         print(request.POST)
         print(emails)
         profile.emails = [emails] if isinstance(emails, str) else emails
+
+        # add a creditor object
+        creditors = profile.creditors.all()
+        if is_new_creditor(profile.business_name, creditors):
+            creditor = Creditor(profile= profile, name=profile.business_name, collected=0.0)
+            creditor.save()
 
         profile.save()
         
@@ -101,6 +141,13 @@ def is_new_address(a, current):
         print(a.strip(), str(c).strip())
         if a.strip() == str(c):
             return False
+    return True
+
+def is_new_creditor(name, current):
+    for c in current:
+        if name == c.name:
+            return False
+        
     return True
 
 def make_address(line, profile):

@@ -25,6 +25,8 @@ class Creditor(models.Model):
     name = models.CharField()
     collected = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    profile = models.ForeignKey('client.Profile', on_delete=models.CASCADE, related_name='creditors', null=True)
+
     def __str__(self):
         return self.name
     
@@ -42,6 +44,7 @@ class Debt(models.Model):
     unique_code = models.CharField(max_length=12, unique=True, blank=True, null=True)
 
     is_settled = models.BooleanField(default=False)
+    collecting = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.unique_code:
@@ -50,3 +53,11 @@ class Debt(models.Model):
 
     def __str__(self):
         return f"{self.debtor} owes {self.creditor_name}: ${self.amount}"
+    
+class ScheduledMessage(models.Model):
+    debtor = models.ForeignKey(Debtor, on_delete=models.CASCADE)
+    send_time = models.DateTimeField()
+    task_name = models.CharField(max_length=255, unique=True)
+    message_type = models.CharField(max_length=50)
+    status = models.CharField(max_length=20, default="scheduled")
+    created_at = models.DateTimeField(auto_now_add=True)

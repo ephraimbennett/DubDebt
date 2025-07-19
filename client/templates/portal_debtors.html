@@ -1,0 +1,21 @@
+{% extends "portal_base.html" %}
+
+{% load static %}
+
+{% block title %}Manage Debts{% endblock %}
+
+{% block main %}
+<div id="debtors-root"></div>
+<script id="debts-data" type="application/json">
+  {{ debts_json|safe }}
+</script>
+<script id="debtors-data" type="application/json">
+  {{ debtors_json|safe }}
+</script>
+<!-- Vite static assets here: -->
+<script type="module" src="{% static 'debtors/dist/assets/index-B1KDw85F.js' %}"></script>
+<link rel="stylesheet" href="{% static 'debtors/dist/assets/index-DqBFk2hP.css' %}">
+
+<div id="root"></div>
+
+{% endblock %}

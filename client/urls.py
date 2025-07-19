@@ -13,6 +13,6 @@ urlpatterns = [
     path('portal-settings/', views.portal, name="portal-settings"),
     path('portal-selloff/', views.portal, name="portal-selloff"),
     path('portal-support/', views.portal, name="portal-support"),
-    path('portal-debtors/', views.portal, name="portal-debtors"),
+    path('portal-debtors/', views.portal_debtors, name="portal-debtors"),
     path('portal-payments/', views.portal, name="portal-payments")
 ]

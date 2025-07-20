@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
 
+from .views_debtor import debtor_get, debtor_post
+
 
 import json
 
@@ -57,32 +59,12 @@ def portal(request):
 
 @login_required
 def portal_debtors(request):
-    profile = Profile.objects.get(user=request.user)
-    creditors = profile.creditors.all()
-    debts_json = ""
-    debts = []
-    for creditor in creditors:
-        debts.extend(list(creditor.debts.all()))
 
-    debts_json = serialize('json', creditor.debts.all())
-
-    debtors = []
-    for debt in debts:
-        #print(type(debt.debtor)) -- this line confirmed debt.debtor is a <class 'main.models.Debtor'>
-        #debtors_json += (serialize('json', [debt.debtor])) # this line fails
-        debtors.append(debt.debtor)
+    if request.method == 'GET':
+        return debtor_get(request)
+    elif request.method == 'POST':
+        return debtor_post(request)
     
-    debtors_json = serialize('json', debtors)
-    print(debtors_json)
-
-    context = {
-        'debts_json': debts_json,
-        'debtors_json': debtors_json
-    }
-
-    context.update(getPortalContext(request))
-
-    return render(request, "portal_debtors.html", context)
 
 @login_required
 def profile_edit(request):

@@ -94,11 +94,12 @@ def profile_edit(request):
                 a.save()
         else:
             addresses = []
-            for address in request.POST.get('addresses'):
-                if is_new_address(address, adresses_o):
-                    a = make_address(address, profile)
-                    address.append(a)
-            Address.objects.bulk_create(addresses)
+            if request.POST.get('addresses') is not None:
+                for address in request.POST.get('addresses'):
+                    if is_new_address(address, adresses_o):
+                        a = make_address(address, profile)
+                        address.append(a)
+                Address.objects.bulk_create(addresses)
     context = {
         'profile': profile,
         'addresses': adresses_o,

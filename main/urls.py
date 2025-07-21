@@ -8,4 +8,5 @@ urlpatterns = [
     path('payment/<str:code>/', views.payment, name='payment'),
     path('payment/route/<str:code>', views.pay_debt, name='pay_route'),
     path('stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
+    path('api/sms/send/', views.sms_send_view, name='sms_send'),
 ]

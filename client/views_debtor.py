@@ -4,7 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
 from django.http import JsonResponse
 
+from main.services import schedule_sms_task
+from main.models import ScheduledMessage
 
+from datetime import datetime, timedelta
 
 import json
 
@@ -30,6 +33,14 @@ def debtor_get(request):
         debtors.append(debt.debtor)
     
     debtors_json = serialize('json', debtors)
+   
+    if (request.GET.get('data-only')):
+        context = {
+            'debts_json': json.loads(debts_json),
+            'debtors_json': json.loads(debtors_json)
+        }
+        return JsonResponse(context)
+
     context = {
         'debts_json': debts_json,
         'debtors_json': debtors_json
@@ -38,6 +49,7 @@ def debtor_get(request):
     context.update(getPortalContext(request))
 
     return render(request, "portal_debtors.html", context)
+
 
 def debtor_post(request):
     data = json.loads(request.body)
@@ -63,6 +75,61 @@ def debtor_post(request):
 
     return JsonResponse(result)
 
+def debt_edit(request):
+    data = json.loads(request.body)
+    print(data)
+    try:
+        debt = Debt.objects.get(unique_code=data.get('unique_code'))
+        debt.amount = 0.0 if len(data['amount']) == 0 else float(data['amount'])
+        debt.interest = 0.0 if len(data['interest']) == 0 else float(data['interest'])
+        debt.incur_date = "2000-01-01" if len(data['incur_date']) == 0 else data['incur_date']
+        debt.due_date = "2000-01-01" if len(data['due_date']) == 0 else data['due_date']
+        debt.description = data['description']
+        
+        debt.save()
+        result = {
+            'success': True
+        }
+    except Exception as e:
+        print(e)
+        result = {
+            'success': False
+        }
+    return JsonResponse(result)
+
+
+reminder_schedule = [
+    (0, "initial"),      # immediate
+    (2, "followup1"),    # 2 days later
+    (7, "followup2"),    # 7 days after start
+]
+
+def debt_collect(request):
+    data = json.loads(request.body)
+    print(data)
+    start_date = datetime.now()
+    try:
+        debt = Debt.objects.get(unique_code=data.get('unique_code'))
+        for offset_days, message_type in reminder_schedule:
+            send_time = start_date + timedelta(days=offset_days)
+            task_name = schedule_sms_task(debt.id, send_time, message_type)
+            ScheduledMessage.objects.create(
+                debtor=debt.debtor,
+                send_time=send_time,
+                task_name=task_name,
+                message_type=message_type,
+                status="scheduled",
+            )
+
+        result = {
+            'success': True
+        }
+    except Exception as e:
+        print(e)
+        result = {
+            'success': False
+        }
+    return JsonResponse(result)
 
 def getPortalContext(request):
     user = request.user

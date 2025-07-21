@@ -23,6 +23,7 @@ body, html {
 .portal-root {
     display: flex;
     min-height: 100vh;
+    width: 100%;
 }
 
 /* Sidebar */
@@ -90,6 +91,7 @@ body, html {
     flex-direction: column;
     min-width: 0;
     background: var(--portal-bg);
+    width:100%;
 }
 
 .topbar {

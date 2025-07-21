@@ -6,6 +6,7 @@
 
 {% block main %}
 <div id="debtors-root"></div>
+<h2>Manage Debtors and Debts</h2>
 <script id="debts-data" type="application/json">
   {{ debts_json|safe }}
 </script>
@@ -13,9 +14,10 @@
   {{ debtors_json|safe }}
 </script>
 <!-- Vite static assets here: -->
-<script type="module" src="{% static 'debtors/dist/assets/index-D7btuQhZ.js' %}"></script>
-<link rel="stylesheet" href="{% static 'debtors/dist/assets/index-DnTwnJzn.css' %}">
+<script type="module" src="{% static 'debtors/dist/assets/index-4Kmq3Ths.js' %}"></script>
+<link rel="stylesheet" href="{% static 'debtors/dist/assets/index-BhSxMRNG.css' %}">
 {% csrf_token %}
-<div id="root"></div>
-
+<div>
+    <div id="root"></div>
+</div>
 {% endblock %}

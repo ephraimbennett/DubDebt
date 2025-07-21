@@ -124,7 +124,8 @@ USE_TZ = True
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = ["https://dubdebt-634639548921.us-central1.run.app", "https://dubdebt.com", 
-                        "https://www.dubdebt.com"]
+                        "https://www.dubdebt.com", "http://localhost:5173",
+                        "http://127.0.0.1:5173",]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -142,6 +143,10 @@ AUTH_USER_MODEL = 'client.Member'
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET')
+
+GCP_PROJECT = os.getenv("GCP_PROJECT")
+GCP_REGION = os.getenv("GCP_REGION")
+
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

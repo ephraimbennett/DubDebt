@@ -53,10 +53,19 @@ def debtor_get(request):
 
 def debtor_post(request):
     data = json.loads(request.body)
-    print(data.get('unique_code'))
-    try:
-        debtor = Debtor.objects.get(unique_code=data.get('unique_code'))
+    if data.get('unique_code') is None:
+        debtor = Debtor()
 
+        # grab creditors for below
+        profile = Profile.objects.get(user=request.user)
+        creditors = profile.creditors.all()
+    else:
+        try:
+            debtor = Debtor.objects.get(unique_code=data.get('unique_code'))
+        except Exception as e:
+            print(e)
+    try:
+        
         debtor.first_name = data.get('first_name')
         debtor.last_name = data.get('last_name')
 
@@ -64,11 +73,23 @@ def debtor_post(request):
         debtor.email = data.get('email')
         
         debtor.save()
+
+        if data.get("unique_code") is None:
+            # add a default debt - can edit / remove 
+            debt = Debt()
+            debt.debtor = debtor
+            debt.creditor_name = creditors.first()
+            debt.amount = 0.0
+            debt.interest = 0.0
+            debt.incur_date = "2000-01-01"
+            debt.due_date = "2000-01-01"
+            debt.description = "DEFAULT"
+            debt.save()
         result = {
             'success': True
         }
     except Exception as e:
-        print("H*UUUHUH")
+        print(e)
         result = {
             'success': False
         }
@@ -79,7 +100,15 @@ def debt_edit(request):
     data = json.loads(request.body)
     print(data)
     try:
-        debt = Debt.objects.get(unique_code=data.get('unique_code'))
+        if data.get("unique_code") is None:
+            # grab creditors for below
+            profile = Profile.objects.get(user=request.user)
+            creditors = profile.creditors.all()
+            debt = Debt()
+            debt.creditor_name = creditors.first()
+            debt.debtor = Debtor.objects.get(unique_code=data.get('debtor'))
+        else:
+            debt = Debt.objects.get(unique_code=data.get('unique_code'))
         debt.amount = 0.0 if len(data['amount']) == 0 else float(data['amount'])
         debt.interest = 0.0 if len(data['interest']) == 0 else float(data['interest'])
         debt.incur_date = "2000-01-01" if len(data['incur_date']) == 0 else data['incur_date']

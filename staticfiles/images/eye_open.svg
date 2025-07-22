@@ -1,0 +1,5 @@
+<!-- eye-open.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+    d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0c-1.5 3-4.5 5-9 5s-7.5-2-9-5c1.5-3 4.5-5 9-5s7.5 2 9 5z"/>
+</svg>

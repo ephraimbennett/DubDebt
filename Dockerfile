@@ -20,5 +20,14 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy project files
 COPY . .
 
+# Collect static files
+RUN ls -al /app/
+RUN python manage.py collectstatic --noinput
+RUN ls -al /app/staticfiles/
+
 # Run Django development server (override in docker-compose if needed)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+
+# entry point so we can run other things like collectstatic
+COPY entrypoint.sh /app/entrypoint.sh
+ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]

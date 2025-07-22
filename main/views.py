@@ -6,6 +6,8 @@ import json
 import stripe
 from .models import Debtor, Debt
 
+from django.urls import reverse
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -46,7 +48,14 @@ def balance(request, code):
         'user': user,
         'debts': debts
     }
+    print(request.path)
     return render(request, "balance.html", context)
+
+def balance_redirect(request):
+    if request.session.get('code') is not None:
+        return redirect(reverse('balance_redirect') + request.session.get('code') + "/")
+    else:
+        return redirect(reverse("home"))
 
 def payment(request, code):
     debt = get_object_or_404(Debt, unique_code=code)
@@ -71,8 +80,8 @@ def pay_debt(request, code):
             'quantity': 1,
         }],
         mode='payment',
-        success_url=request.build_absolute_uri('/payment-success/') + '?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url=request.build_absolute_uri('/payment-cancelled/'),
+        success_url=request.build_absolute_uri(f'/main/payment-success/{code}/') + '?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url=request.build_absolute_uri('/main/payment/' + code + '/'),
         metadata={'debt_id': debt.unique_code},
     )
     return redirect(session.url)
@@ -111,3 +120,13 @@ def sms_send_view(request):
     message_type = data['message_type']
     # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status
     print(f"THIS IS A TASK QUERY TO SEND AN SMS OBJECT TO USER {debtor_id}")
+
+def payment_success(request, code):
+    debt = get_object_or_404(Debt, unique_code=code)
+    debt.amount += debt.interest
+    if not debt.is_settled:
+        return redirect("/main/")
+    context = {
+        'debt': debt
+    }
+    return render(request, "payment_success.html", context)

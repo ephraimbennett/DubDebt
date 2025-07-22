@@ -155,7 +155,8 @@ def debt_collect(request):
                 message_type=message_type,
                 status="scheduled",
             )
-
+        debt.collecting = True
+        debt.save()
         result = {
             'success': True
         }

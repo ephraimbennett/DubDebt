@@ -1,0 +1,183 @@
+{% extends "landing.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'landing.css' %}">
+<style>
+.payment-success-container {
+    max-width: 28rem;
+    margin: 0 auto;
+    padding: 2.2em 1.2em 2em 1.2em;
+    background: #fff;
+    border-radius: 1.6em;
+    box-shadow: 0 0.2em 1em rgba(30,34,37,0.11);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4.5em;
+    margin-bottom: 3.5em;
+}
+@media (min-width: 40em) {
+    .payment-success-container {
+        padding: 2.8em 2em 2.2em 2em;
+        margin-top: 5em;
+    }
+}
+.payment-success-icon {
+    width: 3.2em;
+    height: 3.2em;
+    margin-bottom: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.payment-success-title {
+    font-size: 1.38em;
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 0.45em;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+.payment-success-msg {
+    font-size: 1.05em;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 0.9em;
+    text-align: center;
+}
+.payment-success-details {
+    background: var(--gray-bg);
+    border-radius: 0.8em;
+    padding: 1em 1.2em;
+    font-size: 1em;
+    color: #4b525a;
+    margin-bottom: 1.2em;
+    width: 100%;
+    text-align: center;
+}
+.payment-success-btn {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    font-size: 1.07em;
+    font-weight: 700;
+    padding: 0.72em 2.2em;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 0.11em 0.34em rgba(50,208,106,0.14);
+    transition: background 0.16s;
+    margin-bottom: 1.2em;
+}
+.payment-success-btn:hover {
+    background: #28ba5b;
+}
+.payment-success-sub {
+    font-size: 0.99em;
+    color: #4b525a;
+    margin-top: 0.5em;
+    text-align: center;
+}
+.confetti-canvas {
+    pointer-events: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 9999;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="payment-success-container">
+    <div class="payment-success-icon">
+        <!-- SVG Checkmark -->
+        <svg width="54" height="54" viewBox="0 0 54 54" fill="none">
+            <circle cx="27" cy="27" r="27" fill="#32d06a" fill-opacity="0.11"/>
+            <path d="M18 28.2L24.021 34L36 22" stroke="#32d06a" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    <div class="payment-success-title">Payment Successful</div>
+    <div class="payment-success-msg">
+        Your debt with <strong>{{debt.creditor_name.name}}</strong> for <strong>${{debt.amount|floatformat:2}}</strong> has been settled on <strong>{{current_date}}</strong>.
+    </div>
+    <div class="payment-success-details">
+        Your payment has been processed.<br>
+        You may safely close this page.
+    </div>
+    <a href="{% url 'balance_redirect' %}" class="payment-success-btn">Return to My Balance</a>
+    <div class="payment-success-sub">
+        Thank you for using DubDebt!
+    </div>
+</div>
+<!-- Confetti effect -->
+<canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+{% endblock %}
+
+{% block scripts %}
+<script>
+/**
+ * Simple confetti effect
+ * Source: https://codepen.io/linrock/pen/Amdhr (adapted, very lightweight)
+ */
+(function confetti() {
+    const canvas = document.getElementById("confetti-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let W = window.innerWidth, H = window.innerHeight;
+    let particles = [];
+    const colors = ["#32d06a", "#28ba5b", "#ffcc00", "#e87613", "#33a4f4", "#fff"];
+    for(let i=0; i<52; i++) {
+        particles.push({
+            x: Math.random()*W,
+            y: Math.random()*H/2,
+            r: 0.38 + Math.random()*0.58,
+            d: Math.random()*W/2,
+            color: colors[Math.floor(Math.random()*colors.length)],
+            tilt: Math.random()*12 - 6,
+            tiltAngle: 0,
+            tiltAngleIncremental: (Math.random()*0.08)+.06
+        });
+    }
+    function draw() {
+        ctx.clearRect(0,0,W,H);
+        particles.forEach(function(p) {
+            ctx.beginPath();
+            ctx.lineWidth = p.r;
+            ctx.strokeStyle = p.color;
+            ctx.moveTo(p.x + p.tilt + p.r, p.y);
+            ctx.lineTo(p.x + p.tilt, p.y + 7+p.r*4);
+            ctx.stroke();
+        });
+        update();
+    }
+    function update() {
+        for(let i=0; i<particles.length; i++) {
+            let p = particles[i];
+            p.y += (Math.cos(p.d)+2 + p.r/2)/1.1;
+            p.tiltAngle += p.tiltAngleIncremental;
+            p.tilt = Math.sin(p.tiltAngle - (i%3)) * 7;
+            if(p.y > H+15) {
+                particles[i] = {
+                    x: Math.random()*W,
+                    y: -10,
+                    r: p.r,
+                    d: p.d,
+                    color: p.color,
+                    tilt: Math.random()*8 - 4,
+                    tiltAngle: 0,
+                    tiltAngleIncremental: p.tiltAngleIncremental
+                }
+            }
+        }
+    }
+    function resize() {
+        W = window.innerWidth; H = window.innerHeight;
+        canvas.width = W; canvas.height = H;
+    }
+    window.addEventListener('resize', resize, false);
+    resize();
+    setInterval(draw, 18);
+})();
+</script>
+{% endblock %}

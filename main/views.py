@@ -26,8 +26,12 @@ def verify(request):
             return JsonResponse({'success': exists})
     return render(request, "verify.html")  
 
-def balance(request):
-    debtor = get_object_or_404(Debtor, unique_code=request.session['code'])
+def balance(request, code):
+    if request.session.get('code') is not None:
+        debtor = get_object_or_404(Debtor, unique_code=request.session['code'])
+    else:
+        debtor = get_object_or_404(Debtor, unique_code=code)
+        request.session['code'] = code
     debts = debtor.debts.all()
 
     for debt in debts:

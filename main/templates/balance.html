@@ -18,6 +18,31 @@
 
 <section class="debts-section">
     <h2 class="debts-title">Your Debts</h2>
+    <!-- Mobile debts card layout (only visible on mobile) -->
+    <div class="debts-cards">
+        {% for debt in debts %}
+        <div class="debt-card">
+            <div class="debt-row"><span class="debt-label">Creditor:</span> <span class="debt-value">{{ debt.creditor}}
+
+            </span></div>
+            <div class="debt-row"><span class="debt-label">Amount:</span> <span class="debt-value">
+                ${{debt.amount|floatformat:2 }}
+                </span></div>
+            <div class="debt-row"><span class="debt-label">Accrued Interest:</span> <span class="debt-value">
+                ${{debt.interest|floatformat:2 }}</span></div>
+            <div class="debt-row"><span class="debt-label">Date:</span> <span class="debt-value">{{ debt.incur_date }}
+
+            </span>
+            </div>
+            <div class="debt-actions">
+                <a href="{% url 'payment' debt.unique_code %}" class="btn-dub">Dub It!</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-debts">🎉 No debts found!</div>
+        {% endfor %}
+    </div>
+
     <div class="table-wrapper">
         <table class="debts-table">
             <thead>
@@ -35,7 +60,7 @@
                     <td>{{ debt.creditor }}</td>
                     <td>${{ debt.amount|floatformat:2 }}</td>
                     <td>${{ debt.interest|floatformat:2 }}</td>
-                    <td>{{ debt.date }}</td>
+                    <td>{{ debt.incur_date }}</td>
                     <td>
                         <a href="{% url 'payment' debt.unique_code %}" class="btn-dub">Dub It!</a>
                     </td>

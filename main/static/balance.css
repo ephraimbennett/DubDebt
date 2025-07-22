@@ -141,3 +141,84 @@
         font-size: 1em;
     }
 }
+
+
+/* --- Mobile card layout for debts --- */
+.debts-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1em;
+    margin-bottom: 2em;
+    margin-top: 0.5em;
+}
+
+.debt-card {
+    background: var(--bg-alt);
+    border-radius: var(--radius);
+    box-shadow: 0 0.15em 0.55em rgba(30,34,37,0.10);
+    padding: 1.2em 1.15em 1.1em 1.15em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45em;
+}
+
+.debt-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.07em;
+    margin-bottom: 0.18em;
+}
+
+.debt-label {
+    color: #666;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.debt-value {
+    color: #23272f;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.debt-actions {
+    margin-top: 0.7em;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.debt-card .btn-dub {
+    font-size: 1em;
+    padding: 0.5em 1.3em;
+    border-radius: 2em;
+    background: var(--green);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 0.07em 0.28em rgba(50,208,106,0.11);
+    transition: background 0.15s;
+}
+.debt-card .btn-dub:hover {
+    background: #28ba5b;
+}
+
+/* Hide table, show cards on mobile */
+@media (max-width: 767px) {
+    .table-wrapper {
+        display: none !important;
+    }
+    .debts-cards {
+        display: flex;
+    }
+}
+
+/* Hide cards, show table on desktop */
+@media (min-width: 768px) {
+    .debts-cards {
+        display: none !important;
+    }
+    .table-wrapper {
+        display: block;
+    }
+}

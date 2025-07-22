@@ -129,11 +129,13 @@ a {
     border-radius: 2em;
     font-weight: 700;
     margin-left: 0.1em;
+    margin-right: 0.2em;
     box-shadow: 0 0.07em 0.45em rgba(255, 118, 0, 0.09);
     transition: background 0.14s;
 }
 .try-link:hover, .try-link:focus {
     background: var(--orange-dark);
+    color:white;
 }
 .navbar-right {
     display: flex;

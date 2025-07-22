@@ -54,11 +54,14 @@ def debtor_get(request):
 def debtor_post(request):
     data = json.loads(request.body)
     if data.get('unique_code') is None:
-        debtor = Debtor()
 
-        # grab creditors for below
-        profile = Profile.objects.get(user=request.user)
-        creditors = profile.creditors.all()
+        phone = data.get('phone')
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+
+        debtor, created = Debtor.objects.get_or_create(first_name=first_name, last_name=last_name,
+                                                       phone=phone)
+        print(created)
     else:
         try:
             debtor = Debtor.objects.get(unique_code=data.get('unique_code'))
@@ -75,6 +78,9 @@ def debtor_post(request):
         debtor.save()
 
         if data.get("unique_code") is None:
+            # grab creditors for below
+            profile = Profile.objects.get(user=request.user)
+            creditors = profile.creditors.all()
             # add a default debt - can edit / remove 
             debt = Debt()
             debt.debtor = debtor

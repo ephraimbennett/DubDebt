@@ -39,6 +39,7 @@
             </ul>
             <div class="navbar-right">
                 {% if user.is_authenticated %}
+                <a href="{% url 'portal-dashboard' %}" class="navbar-link try-link">Dashboard</a>
                 <a href="{% url 'logout' %}" class="navbar-link">Log out</a>
                 {% else %}
                 <a href="{% url 'login' %}" class="navbar-link">Log in</a>

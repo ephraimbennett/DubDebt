@@ -24,7 +24,7 @@ def login_user(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/profile-edit/')
+            return redirect('/profile-dashboard/')
         else:
             return render(request, "login.html", {
                 'error' : "Invalid email or password.",

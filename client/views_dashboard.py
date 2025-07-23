@@ -32,10 +32,10 @@ def dashboard(request):
         collecting = 0
         for debt in creditors.first().debts.all():
             if debt.is_settled:
-                total_outstanding += (debt.amount + debt.interest)
+                total_collected += (debt.amount + debt.interest)
                 paid += 1
             else:
-                total_collected += (debt.amount + debt.interest)
+                total_outstanding += (debt.amount + debt.interest)
             if debt.collecting:
                 collecting += 1
         print(total_outstanding, total_collected)

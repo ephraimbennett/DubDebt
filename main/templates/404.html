@@ -1,0 +1,70 @@
+{% extends "landing.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'landing.css' %}">
+<style>
+.notfound-container {
+    max-width: 28rem;
+    margin: 0 auto;
+    margin-top: 6em;
+    padding: 2.5em 1.4em 2em 1.4em;
+    background: #fff;
+    border-radius: 1.6em;
+    box-shadow: 0 0.13em 1.1em rgba(30,34,37,0.09);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 18em;
+}
+.notfound-emoji {
+    font-size: 3.6em;
+    margin-bottom: 0.35em;
+    line-height: 1;
+    user-select: none;
+}
+.notfound-title {
+    font-size: 1.55em;
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 0.36em;
+    text-align: center;
+    letter-spacing: -0.01em;
+}
+.notfound-msg {
+    font-size: 1.1em;
+    color: #2d323b;
+    font-weight: 500;
+    margin-bottom: 1.2em;
+    text-align: center;
+}
+.notfound-btn {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    font-size: 1.03em;
+    font-weight: 700;
+    padding: 0.67em 2.1em;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 0.11em 0.32em rgba(50,208,106,0.14);
+    transition: background 0.15s;
+}
+.notfound-btn:hover {
+    background: #28ba5b;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="notfound-container">
+    <div class="notfound-emoji">😕</div>
+    <div class="notfound-title">404 – Page Not Found</div>
+    <div class="notfound-msg">
+        Sorry, the page you’re looking for doesn’t exist.<br>
+        You might have followed a broken link or mistyped the address.
+    </div>
+    <a href="{% url 'home' %}" class="notfound-btn">Go to Home</a>
+</div>
+{% endblock %}

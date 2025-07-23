@@ -28,6 +28,6 @@ RUN ls -al /app/staticfiles/
 # Run Django development server (override in docker-compose if needed)
 #CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
 
-# entry point so we can run other things like collectstatic
+# Entry point so we can run other things like collectstatic
 COPY entrypoint.sh /app/entrypoint.sh
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh"]

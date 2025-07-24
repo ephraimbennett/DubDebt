@@ -13,6 +13,7 @@ urlpatterns = [
     path('portal/', views.portal, name="portal"),
 
     path('portal-dashboard/', views_dashboard.dashboard, name="portal-dashboard"),
+    path('portal-dashboard/upload/', views_dashboard.upload_file, name="portal-dashboard-upload"),
 
     path('portal-settings/', views.portal, name="portal-settings"),
     path('portal-selloff/', views.portal, name="portal-selloff"),

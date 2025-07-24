@@ -77,3 +77,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.email
+
+class UploadedFile(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    original_name = models.CharField(max_length=255)
+    gcs_path = models.CharField(max_length=1024)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.original_name}"

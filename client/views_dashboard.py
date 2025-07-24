@@ -2,12 +2,20 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+
+from uuid import uuid4
 
 from main.services import schedule_sms_task
 from main.models import ScheduledMessage
 
+from .models import UploadedFile
+
 from datetime import datetime, timedelta
+
+from google.cloud import storage
 
 import json
 
@@ -54,7 +62,34 @@ def dashboard(request):
         context.update(getPortalContext(request))
         return render(request, "portal_dashboard.html", context)
 
-    
+@csrf_exempt 
+def upload_file(request):
+    if request.method != 'POST':
+        return HttpResponseBadRequest("Only POST allowed.")
+     
+    file_obj = request.FILES.get('file')
+    if not file_obj:
+        return JsonResponse({'error': 'No file uploaded.'}, status=400)
+
+    bucket_name = "dubdebt-bucket"
+    destination_blob_name = f"uploads/{request.user.id}/{uuid4()}_{file_obj.name}"
+
+    try:
+        storage_client = storage.Client(project=settings.GCP_PROJECT)
+        bucket = storage_client.bucket(bucket_name)
+        blob = bucket.blob(destination_blob_name)
+        blob.upload_from_file(file_obj, content_type=file_obj.content_type)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': str(e)}, status=500)
+    else:
+        uploaded = UploadedFile()
+        uploaded.user = Profile.objects.get(user=request.user)
+        uploaded.original_name = file_obj.name
+        uploaded.gcs_path = destination_blob_name
+        uploaded.save()
+
+    return JsonResponse({'message': 'Upload successful!', 'filename': file_obj.name})
 
 def getPortalContext(request):
     user = request.user

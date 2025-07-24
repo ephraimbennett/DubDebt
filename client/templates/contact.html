@@ -1,0 +1,47 @@
+{% extends "clients.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/clients.css' %}">
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
+
+{% block main %}
+<main>
+    <section class="contact-hero">
+        <h1 class="contact-title">Contact Us</h1>
+        <p class="contact-desc">
+            We’re here to help your business collect smarter and grow faster.<br>
+            Reach out—our team will respond as soon as possible!
+        </p>
+    </section>
+
+    <section class="contact-form-section">
+        {% if success %}
+        <div class="contact-success">
+            <svg viewBox="0 0 36 36" class="success-icon">
+                <circle cx="18" cy="18" r="18" fill="#32d06a" fill-opacity="0.12"/>
+                <path d="M11 19.2L16.2 24L25 14.5" stroke="#32d06a" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="success-msg">Thank you! Your message has been received. Our team will be in touch soon.</div>
+        </div>
+        {% else %}
+        <form action="/contact/" method="post" class="contact-form" autocomplete="off">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="fieldWrapper">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="field-error">{{ field.errors|join:", " }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="contact-submit-btn">Submit</button>
+        </form>
+        {% endif %}
+        <div class="contact-email">
+            Or email us anytime: <a href="mailto:team@dubdebt.com">team@dubdebt.com</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "clients.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/clients.css' %}">
+<link rel="stylesheet" href="{% static 'css/privacy.css' %}">
+{% endblock %}
+
+{% block main %}
+<main>
+    <section class="privacy-hero">
+        <div class="privacy-hero-content">
+            <h1 class="privacy-title">Privacy & Data Protection at DubDebt</h1>
+            <p class="privacy-desc">
+                At DubDebt, your privacy is our top priority. We build our platform on transparency, control, and the highest standards of security.<br>
+                <span class="privacy-compliance">
+                    <svg viewBox="0 0 24 24" class="compliance-icon"><circle cx="12" cy="12" r="12" fill="#32d06a" fill-opacity="0.12"/><path d="M7 12.7l3.2 3.3 6-7.2" stroke="#32d06a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    SOC2 Certified
+                </span>
+                <span class="privacy-compliance">
+                    <svg viewBox="0 0 24 24" class="compliance-icon"><circle cx="12" cy="12" r="12" fill="#32d06a" fill-opacity="0.12"/><path d="M7 12.7l3.2 3.3 6-7.2" stroke="#32d06a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    GDPR Compliant
+                </span>
+            </p>
+        </div>
+    </section>
+
+    <section class="privacy-values">
+        <div class="privacy-values-box">
+            <svg viewBox="0 0 32 32" class="privacy-icon"><rect x="3" y="10" width="26" height="16" rx="3" fill="#32d06a" fill-opacity="0.07"/><rect x="3" y="10" width="26" height="16" rx="3" stroke="#32d06a" stroke-width="1.2" fill="none"/><path d="M9 17.5l4.3 4.1 9-8.1" stroke="#32d06a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+                <span class="privacy-values-headline">You own your data</span>
+                <p>We never resell or share your business or client information. Your data stays yours—period.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="privacy-main-content">
+        <h2>What Information We Collect</h2>
+        <p>
+            To help your business collect unpaid fees efficiently and securely, DubDebt collects:
+        </p>
+        <ul class="privacy-list">
+            <li><strong>Business account info:</strong> Name, business contact, address, payment information, and login credentials.</li>
+            <li><strong>Debtor/customer data:</strong> Information you provide about your clients to process collections (names, contact details, debt amounts, repayment status).</li>
+            <li><strong>Platform usage data:</strong> Actions taken within the platform for product improvement and support (never sold, never used for advertising).</li>
+        </ul>
+
+        <h2>How We Use Your Data</h2>
+        <ul class="privacy-list">
+            <li>To power debt collection workflows for your business.</li>
+            <li>To provide you and your team with secure account access and customer support.</li>
+            <li>To notify debtors and manage communications (on your behalf—never for DubDebt’s own marketing).</li>
+            <li>To improve our services, always in an aggregated, non-identifiable way.</li>
+        </ul>
+
+        <h2>How We Keep Data Secure</h2>
+        <ul class="privacy-list">
+            <li>All data encrypted at rest and in transit, using modern industry standards.</li>
+            <li>Access controls ensure only your team can access your business and debtor data.</li>
+            <li>Regular third-party audits and certifications, including <strong>SOC2</strong> and <strong>GDPR</strong> compliance.</li>
+        </ul>
+
+        <h2>Your Rights & Choices</h2>
+        <ul class="privacy-list">
+            <li>Access, export, or delete your account and debtor data at any time.</li>
+            <li>Request correction of any inaccurate business or customer information.</li>
+            <li>Contact us for privacy questions or data requests: <a href="mailto:team@dubdebt.com" class="privacy-link">team@dubdebt.com</a></li>
+        </ul>
+    </section>
+
+    <section class="privacy-cta">
+        <h2 class="privacy-cta-title">Ready to get started?</h2>
+        <a href="{% url 'signup' %}" class="privacy-cta-btn">Try DubDebt for free</a>
+        <div class="privacy-cta-contact">
+            Have questions? <a href="{% url 'contact' %}">Contact our team</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

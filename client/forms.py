@@ -19,3 +19,9 @@ class MemberChangeForm(UserChangeForm):
     class Meta:
         model = Member
         fields = ("email",)
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.CharField(max_length=100)
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea)

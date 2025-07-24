@@ -1,0 +1,188 @@
+/* Privacy Page Styles (matches clients.css) */
+
+.privacy-hero {
+    padding: 2.8em 0 1.3em 0;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin: 0 auto 2.2em auto;
+    max-width: 40em;
+}
+.privacy-hero-content {
+    text-align: center;
+    padding: 0 1.2em;
+}
+.privacy-title {
+    font-size: 2em;
+    font-weight: 800;
+    margin-bottom: 0.4em;
+    color: var(--green);
+}
+.privacy-desc {
+    font-size: 1.17em;
+    color: #333;
+    margin-bottom: 0.7em;
+}
+.privacy-compliance {
+    display: inline-flex;
+    align-items: center;
+    background: #eefaf3;
+    color: #2d5943;
+    border-radius: 2em;
+    font-size: 0.97em;
+    font-weight: 600;
+    margin: 0 0.38em 0.24em 0;
+    padding: 0.21em 1em 0.18em 0.6em;
+    box-shadow: 0 0.04em 0.12em rgba(50,208,106,0.05);
+}
+.compliance-icon {
+    width: 1.3em;
+    height: 1.3em;
+    margin-right: 0.42em;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.privacy-values {
+    margin: 0 auto 2.4em auto;
+    max-width: 40em;
+}
+.privacy-values-box {
+    display: flex;
+    align-items: center;
+    background: #e8faf0;
+    border: 1.7px solid #d7f4e4;
+    border-radius: 1.1em;
+    box-shadow: 0 0.05em 0.16em rgba(50,208,106,0.07);
+    padding: 1.05em 1.4em;
+    gap: 1.1em;
+}
+.privacy-icon {
+    width: 2.9em;
+    height: 2.9em;
+    flex-shrink: 0;
+    margin-right: 0.65em;
+}
+.privacy-values-headline {
+    font-size: 1.13em;
+    font-weight: 700;
+    color: #219a5e;
+    display: block;
+    margin-bottom: 0.13em;
+}
+.privacy-values-box p {
+    margin: 0;
+    color: #334;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.privacy-main-content {
+    max-width: 39em;
+    background: #fff;
+    margin: 0 auto 2.5em auto;
+    padding: 2.1em 1.4em 1.5em 1.4em;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.privacy-main-content h2 {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: var(--green);
+    margin-top: 1.6em;
+    margin-bottom: 0.7em;
+}
+.privacy-main-content h2:first-child {
+    margin-top: 0;
+}
+.privacy-list {
+    margin: 0 0 1.3em 1.1em;
+    padding: 0 0 0 1em;
+    font-size: 1.02em;
+    color: #23272f;
+}
+.privacy-list li {
+    margin-bottom: 0.47em;
+    line-height: 1.7;
+}
+
+.privacy-link {
+    color: var(--green);
+    text-decoration: underline;
+    transition: color 0.15s;
+}
+.privacy-link:hover {
+    color: var(--orange);
+}
+
+.privacy-cta {
+    margin: 2.4em auto 2em auto;
+    padding: 2.2em 1.2em 1.4em 1.2em;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 33em;
+    text-align: center;
+}
+.privacy-cta-title {
+    font-size: 1.23em;
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 0.7em;
+}
+.privacy-cta-btn {
+    display: inline-block;
+    background: var(--orange);
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 700;
+    padding: 0.95em 2.3em;
+    border: none;
+    border-radius: 2em;
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 0.9em;
+    box-shadow: 0 0.07em 0.32em rgba(255, 118, 0, 0.10);
+    transition: background 0.13s;
+}
+.privacy-cta-btn:hover,
+.privacy-cta-btn:focus {
+    background: var(--orange-dark);
+    color: #fff;
+}
+.privacy-cta-contact {
+    font-size: 1em;
+    color: #334;
+    margin-top: 0.7em;
+}
+.privacy-cta-contact a {
+    color: var(--orange);
+    text-decoration: underline;
+    transition: color 0.14s;
+}
+.privacy-cta-contact a:hover {
+    color: var(--green);
+}
+
+/* Responsive adjustments */
+@media (max-width: 46em) {
+    .privacy-hero,
+    .privacy-values,
+    .privacy-main-content,
+    .privacy-cta {
+        max-width: 100%;
+        border-radius: 1.1em;
+        padding-left: 0.8em;
+        padding-right: 0.8em;
+    }
+    .privacy-values-box {
+        flex-direction: column;
+        gap: 0.7em;
+        align-items: flex-start;
+        padding: 1.1em 1em;
+    }
+    .privacy-icon {
+        margin-bottom: 0.6em;
+        margin-right: 0;
+    }
+}

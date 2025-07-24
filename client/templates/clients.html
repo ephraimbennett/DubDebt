@@ -9,6 +9,7 @@
     <meta name="description"
         content="DubDebt lets you collect unpaid fees from your clients faster, smarter, and stress-free. Modern SaaS platform for businesses of all sizes.">
     <link rel="stylesheet" href="{% static 'css/clients.css' %}">
+    <link rel="stylesheet" href="{% static 'css/solutions.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600,800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{% static 'dubdebt_favicon.svg' %}">
 
@@ -22,8 +23,9 @@
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-left">
-                <img src="{% static 'dubdebt_favicon.svg' %}" alt="DubDebt logo" class="navbar-logo">
-                <span class="navbar-brand">DubDebt</span>
+                <img src="{% static 'dubdebt_favicon.svg' %}" alt="DubDebt logo" class="navbar-logo"
+                    onclick="window.location.href='/'">
+                <span class="navbar-brand" onclick="window.location.href='/'">DubDebt</span>
                 <button id="hamburger" class="hamburger" aria-label="Open navigation" aria-expanded="false"
                     aria-controls="mobile-menu">
                     <span></span>
@@ -32,7 +34,7 @@
                 </button>
             </div>
             <ul class="navbar-links">
-                <li><a href="#" class="navbar-link">Solutions</a></li>
+                <li><a href="/#solutions" class="navbar-link">Solutions</a></li>
                 <li><a href="#" class="navbar-link">Pricing</a></li>
                 <li><a href="#" class="navbar-link">Resources</a></li>
                 <!-- Add more links as needed -->
@@ -52,7 +54,7 @@
             <div class="mobile-menu-content">
                 <button class="close-mobile-menu" aria-label="Close menu">&times;</button>
                 <ul class="mobile-links">
-                    <li><a href="#" class="mobile-link">Solutions</a></li>
+                    <li><a href="/#solutions" class="mobile-link">Solutions</a></li>
                     <li><a href="#" class="mobile-link">Pricing</a></li>
                     <li><a href="#" class="mobile-link">Resources</a></li>
                 </ul>
@@ -82,12 +84,118 @@
             </div>
             <div class="hero-media">
                 <!-- Replace below with your SVG/illustration/video as needed -->
-                <img src="https://assets.softr-files.com/applications/1263f5c5-5c4a-4a64-8900-840c8d07d2e2/assets/b64b9490-63af-46ec-a0d3-78dabc7cf9e0.png" alt="Hero illustration" class="hero-image">
+                <img src="https://assets.softr-files.com/applications/1263f5c5-5c4a-4a64-8900-840c8d07d2e2/assets/b64b9490-63af-46ec-a0d3-78dabc7cf9e0.png"
+                    alt="Hero illustration" class="hero-image">
                 <!--<img src="{% static 'logo.svg' %}" alt="DubDebt SaaS Hero" class="hero-image">-->
             </div>
         </section>
-        <section class="below-hero">
-            <!-- Future content here, e.g. features, testimonials, logos, etc. -->
+        <section class="below-hero" id="solutions">
+            <section class="below-hero" id="solutions">
+                <div class="solutions-container">
+                    <h2 class="solutions-title">Our Solutions</h2>
+                    <div class="solutions-list">
+                        <div class="solution-card">
+                            <div class="solution-icon">
+                                <!-- SVG: Lightning for "Three Click Settlements" -->
+                                <svg viewBox="0 0 40 40" width="40" height="40">
+                                    <circle cx="20" cy="20" r="20" fill="#32d06a" fill-opacity="0.09" />
+                                    <path d="M18 27l8-11.5h-6l2-5.5L14 20.5h6l-2 6.5z" fill="#32d06a" />
+                                </svg>
+                            </div>
+                            <div class="solution-content">
+                                <div class="solution-headline">Three Click Settlements</div>
+                                <div class="solution-desc">
+                                    DubDebt provides a smooth, secure infrastructure in order to get your clients to
+                                    settle debts in just three clicks. No complicated registrations, no paperwork, no
+                                    hassle. Studies show a trustworthy platform can increase repayment rates by over
+                                    300%.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="solution-card">
+                            <div class="solution-icon">
+                                <!-- SVG: Speech bubble for "Personalized Reachout" -->
+                                <svg viewBox="0 0 40 40" width="40" height="40">
+                                    <circle cx="20" cy="20" r="20" fill="#ff7600" fill-opacity="0.08" />
+                                    <path
+                                        d="M28 15a6 6 0 00-12 0c0 2.46 2.06 4.5 5 4.5.58 0 1.13-.09 1.66-.26l3.51 2.1a.75.75 0 001.1-.76l-.29-2.34A5.96 5.96 0 0028 15z"
+                                        fill="#ff7600" />
+                                </svg>
+                            </div>
+                            <div class="solution-content">
+                                <div class="solution-headline">Personalized Reachout</div>
+                                <div class="solution-desc">
+                                    Using advanced AI analytics, we craft strategic messaging to individuals. As a
+                                    licensed debt recovery assistor, we contact your debtors with respect and trust.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="solution-card">
+                            <div class="solution-icon">
+                                <!-- SVG: Calendar/money for "No Stress" Payment Plans -->
+                                <svg viewBox="0 0 40 40" width="40" height="40">
+                                    <circle cx="20" cy="20" r="20" fill="#32d06a" fill-opacity="0.08" />
+                                    <rect x="12" y="15" width="16" height="10" rx="2" fill="#32d06a"
+                                        fill-opacity="0.13" />
+                                    <path d="M15 19h10M15 22h5" stroke="#32d06a" stroke-width="1.6"
+                                        stroke-linecap="round" />
+                                    <rect x="12" y="15" width="16" height="10" rx="2" stroke="#32d06a"
+                                        stroke-width="1.3" />
+                                </svg>
+                            </div>
+                            <div class="solution-content">
+                                <div class="solution-headline">"No Stress" Payment Plans</div>
+                                <div class="solution-desc">
+                                    By working with our partners in financial institutions, we can get you a lump sum
+                                    from the debtor's payment plan, meaning you don't have to worry about following up.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="solution-card">
+                            <div class="solution-icon">
+                                <!-- SVG: Key for Ownership -->
+                                <svg viewBox="0 0 40 40" width="40" height="40">
+                                    <circle cx="20" cy="20" r="20" fill="#ff7600" fill-opacity="0.08" />
+                                    <path d="M17 25a4 4 0 110-8 4 4 0 010 8zm7-4h-3m-4 0h-2m7 0v2.5m0-2.5V16.5"
+                                        stroke="#ff7600" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" fill="none" />
+                                </svg>
+                            </div>
+                            <div class="solution-content">
+                                <div class="solution-headline">Ownership</div>
+                                <div class="solution-desc">
+                                    Unlike debt collectors, you remain in charge of the receivable, we're just here to
+                                    help.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="solution-card">
+                            <div class="solution-icon">
+                                <!-- SVG: Shield/Chart for "Future Proof Your Business" -->
+                                <svg viewBox="0 0 40 40" width="40" height="40">
+                                    <circle cx="20" cy="20" r="20" fill="#32d06a" fill-opacity="0.08" />
+                                    <path d="M13 17v2.5c0 4.2 2.9 8 7 9 4.1-1 7-4.8 7-9V17l-7-3-7 3z" fill="#32d06a"
+                                        fill-opacity="0.13" />
+                                    <path d="M20 21v4m0-4a2 2 0 100-4 2 2 0 000 4zm0 4h2.5m-2.5 0H17" stroke="#32d06a"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="solution-content">
+                                <div class="solution-headline">Future Proof Your Business</div>
+                                <div class="solution-desc">
+                                    With machine learning models, we can help you determine the credibility of potential
+                                    clients, saving you margins on the future.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </section>
     </main>
 

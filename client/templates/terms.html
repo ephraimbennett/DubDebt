@@ -1,0 +1,68 @@
+{% extends "clients.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/terms.css' %}">
+{% endblock %}
+
+{% block main %}
+<main>
+    <section class="terms-hero">
+        <h1 class="terms-title">Terms of Service</h1>
+        <p class="terms-desc">
+            Welcome to DubDebt! These Terms of Service (“Terms”) govern your use of our platform.  
+            Please read them carefully—they’re here to protect your business, your clients, and DubDebt.
+        </p>
+    </section>
+    <section class="terms-content">
+        <h2>1. Your Account & Responsibilities</h2>
+        <ul class="terms-list">
+            <li>You must provide accurate business information and keep your account credentials secure.</li>
+            <li>You’re responsible for all activity under your account, including any team members you invite.</li>
+            <li>You may only use DubDebt for legitimate business purposes and in accordance with all applicable laws.</li>
+        </ul>
+        <h2>2. Client & Debtor Data</h2>
+        <ul class="terms-list">
+            <li>You confirm you have a lawful basis to upload and process debtor or customer data on DubDebt.</li>
+            <li>We never resell, share, or use your data except as needed to provide and improve our service. See our <a href="{% url 'privacy' %}">Privacy Policy</a> for details.</li>
+            <li>You control your data. You can export or delete your information at any time.</li>
+        </ul>
+        <h2>3. Payments & Fees</h2>
+        <ul class="terms-list">
+            <li>Some features require a paid subscription. Fees, billing cycles, and refund policies are outlined during signup and in your account settings.</li>
+            <li>Non-payment may result in suspension or termination of service, with advance notice.</li>
+        </ul>
+        <h2>4. Prohibited Use</h2>
+        <ul class="terms-list">
+            <li>No use of DubDebt for unlawful, abusive, harassing, or fraudulent activity.</li>
+            <li>No uploading of malicious code or interfering with platform security.</li>
+        </ul>
+        <h2>5. Platform Availability</h2>
+        <ul class="terms-list">
+            <li>We strive for 24/7 uptime, but service may be interrupted for maintenance, upgrades, or circumstances beyond our control.</li>
+            <li>We are not liable for losses caused by outages, but we’ll always communicate planned downtime in advance when possible.</li>
+        </ul>
+        <h2>6. Intellectual Property</h2>
+        <ul class="terms-list">
+            <li>DubDebt’s technology, branding, and content belong to us. Don’t copy, distribute, or reverse-engineer the platform.</li>
+            <li>Your business and debtor data always remain yours.</li>
+        </ul>
+        <h2>7. Termination</h2>
+        <ul class="terms-list">
+            <li>You can close your account anytime. We may suspend or terminate accounts that violate these Terms or the law.</li>
+            <li>Upon termination, your data will be handled per our <a href="{% url 'privacy' %}">Privacy Policy</a>.</li>
+        </ul>
+        <h2>8. Changes to These Terms</h2>
+        <ul class="terms-list">
+            <li>We may update these Terms from time to time. Major changes will be communicated via email or the DubDebt dashboard.</li>
+            <li>Continued use of the platform after updates means you accept the new Terms.</li>
+        </ul>
+        <h2>9. Support & Contact</h2>
+        <ul class="terms-list">
+            <li>Have questions or need help? Contact our team at <a href="mailto:team@dubdebt.com">team@dubdebt.com</a>.</li>
+        </ul>
+        <div class="terms-footer-note">
+            <strong>Last updated:</strong> July 2025 &mdash; Thank you for trusting DubDebt!
+        </div>
+    </section>
+</main>
+{% endblock %}

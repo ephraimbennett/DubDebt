@@ -99,6 +99,9 @@ class UploadedFile(models.Model):
             r = requests.Request()
             credentials.refresh(r)
 
+            print("CREDENTIALS TYPE:", type(credentials))
+            print("SERVICE ACCOUNT EMAIL:", getattr(credentials, 'service_account_email', None))
+
             # Figure out which service account to use
             if hasattr(credentials, "service_account_email"):
                 service_account_email = credentials.service_account_email

@@ -102,12 +102,17 @@ class UploadedFile(models.Model):
             print("CREDENTIALS TYPE:", type(credentials))
             print("SERVICE ACCOUNT EMAIL:", getattr(credentials, 'service_account_email', None))
 
+            res = f'''
+                CREDENTIALS TYPE:{type(credentials)}
+                SERVICE ACCOUNT EMAIL: {getattr(credentials, 'service_account_email', None)}
+                '''
+
             # Figure out which service account to use
             if hasattr(credentials, "service_account_email"):
                 service_account_email = credentials.service_account_email
             else:
                 # fallback: put your SA email here for dev, or raise error
-                service_account_email = "your-service-account@your-project.iam.gserviceaccount.com"
+                service_account_email = "634639548921-compute@developer.gserviceaccount.com"
 
             bucket_name = 'dubdebt-bucket'
             project_id = settings.GCP_PROJECT
@@ -121,7 +126,7 @@ class UploadedFile(models.Model):
                 method="GET",
                 response_disposition=f'attachment; filename="{self.original_name}"'
             )
-            return url
+            return res
         except Exception as e:
             return f"Error: {str(e)}"
 

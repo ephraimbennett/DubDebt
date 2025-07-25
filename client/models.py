@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.contrib.postgres.fields import ArrayField
 
+from django.conf import settings
+
 from django.utils.html import format_html
 from google.cloud import storage
 import os
@@ -89,8 +91,8 @@ class UploadedFile(models.Model):
 
     def gcs_signed_url(self):
         try:
-            bucket_name = 'dubdebt-uploads-prod'
-            project_id = os.environ.get('GOOGLE_CLOUD_PROJECT', 'your-gcp-project-id')
+            bucket_name = 'dubdebt-bucket'
+            project_id = settings.GCP_PROJECT
             storage_client = storage.Client(project=project_id)
             bucket = storage_client.bucket(bucket_name)
             blob = bucket.blob(self.gcs_path)

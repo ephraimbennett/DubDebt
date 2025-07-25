@@ -6,6 +6,7 @@ from django.conf import settings
 
 from django.utils.html import format_html
 from google.cloud import storage
+import google.auth
 import os
 
 
@@ -91,6 +92,20 @@ class UploadedFile(models.Model):
 
     def gcs_signed_url(self):
         try:
+            credentials, project_id = google.auth.default()
+            
+            # Perform a refresh request to get the access token of the current credentials (Else, it's None)
+            from google.auth.transport import requests
+            r = requests.Request()
+            credentials.refresh(r)
+
+            # Figure out which service account to use
+            if hasattr(credentials, "service_account_email"):
+                service_account_email = credentials.service_account_email
+            else:
+                # fallback: put your SA email here for dev, or raise error
+                service_account_email = "your-service-account@your-project.iam.gserviceaccount.com"
+
             bucket_name = 'dubdebt-bucket'
             project_id = settings.GCP_PROJECT
             storage_client = storage.Client(project=project_id)
@@ -99,6 +114,7 @@ class UploadedFile(models.Model):
             url = blob.generate_signed_url(
                 version="v4",
                 expiration=600,
+                service_account_email=service_account_email,
                 method="GET",
                 response_disposition=f'attachment; filename="{self.original_name}"'
             )

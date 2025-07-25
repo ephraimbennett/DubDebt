@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.contrib.postgres.fields import ArrayField
 
+from django.utils.html import format_html
+from google.cloud import storage
+import os
 
 
 # Create your models here.
@@ -83,6 +86,24 @@ class UploadedFile(models.Model):
     original_name = models.CharField(max_length=255)
     gcs_path = models.CharField(max_length=1024)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def gcs_signed_url(self):
+        try:
+            bucket_name = 'dubdebt-uploads-prod'
+            project_id = os.environ.get('GOOGLE_CLOUD_PROJECT', 'your-gcp-project-id')
+            storage_client = storage.Client(project=project_id)
+            bucket = storage_client.bucket(bucket_name)
+            blob = bucket.blob(self.gcs_path)
+            url = blob.generate_signed_url(
+                version="v4",
+                expiration=600,
+                method="GET",
+                response_disposition=f'attachment; filename="{self.original_name}"'
+            )
+            return url
+        except Exception as e:
+            return f"Error: {str(e)}"
+
 
     def __str__(self):
         return f"{self.user} - {self.original_name}"

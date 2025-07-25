@@ -1,8 +1,9 @@
 from django.contrib import admin
 from .models import Member
 from django.contrib.auth.admin import UserAdmin
+from django.utils.html import format_html
 from .forms import MemberChangeForm, MemberCreationForm
-from .models import Member, Profile, Address
+from .models import Member, Profile, Address, UploadedFile
 
 class MemberAdmin(UserAdmin):
     # Set the forms for a member
@@ -35,3 +36,16 @@ class MemberAdmin(UserAdmin):
 admin.site.register(Member, MemberAdmin)
 admin.site.register(Profile)
 admin.site.register(Address)
+
+@admin.register(UploadedFile)
+class UploadedFileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'original_name', 'uploaded_at', 'gcs_path', 'download_link']
+
+    def download_link(self, obj):
+        url = obj.gcs_signed_url()
+        if url.startswith("http"):
+            return format_html('<a href="{}" target="_blank">Download</a>', url)
+        else:
+            return url  # display error message if any
+
+    download_link.short_description = "Download File"

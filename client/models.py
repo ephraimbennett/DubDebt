@@ -120,7 +120,7 @@ class UploadedFile(models.Model):
             bucket = storage_client.bucket(bucket_name)
             blob = bucket.blob(self.gcs_path)
             url = blob.generate_signed_url(
-                version="v4",
+                version="v2",
                 expiration=600,
                 service_account_email=service_account_email,
                 method="GET",

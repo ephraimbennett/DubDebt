@@ -34,8 +34,26 @@ class MemberAdmin(UserAdmin):
     readonly_fields = ('joined_date',)
 
 admin.site.register(Member, MemberAdmin)
-admin.site.register(Profile)
 admin.site.register(Address)
+
+class UploadedFileInline(admin.StackedInline):
+    model = UploadedFile
+
+    readonly_fields = ('download_link',)
+
+    def download_link(self, obj):
+        url = obj.gcs_signed_url()
+        if url.startswith("http"):
+            return format_html('<a href="{}" target="_blank">Download</a>', url)
+        else:
+            return url  # display error message if any
+    download_link.short_description = "Download File"
+
+    extra = 0
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    inlines = [UploadedFileInline]
 
 @admin.register(UploadedFile)
 class UploadedFileAdmin(admin.ModelAdmin):

@@ -123,9 +123,6 @@ class UploadedFile(models.Model):
                 access_token=credentials.token,
                 # This URL is valid for 120 minutes
                 expiration=timedelta(minutes=120),
-                # Allow PUT requests using this URL.
-                method="PUT",
-                content_type="application/octet-stream",
             )
             return url
 

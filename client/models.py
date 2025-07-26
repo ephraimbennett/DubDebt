@@ -5,7 +5,12 @@ from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 
 from django.utils.html import format_html
+
+from datetime import datetime, timedelta
+
 from google.cloud import storage
+
+from google.auth import impersonated_credentials
 import google.auth
 import os
 
@@ -93,40 +98,37 @@ class UploadedFile(models.Model):
     def gcs_signed_url(self):
         try:
             credentials, project_id = google.auth.default()
-            
             # Perform a refresh request to get the access token of the current credentials (Else, it's None)
-            from google.auth.transport import requests
+            '''from google.auth.transport import requests
+
             r = requests.Request()
-            credentials.refresh(r)
+            credentials.refresh(r)'''
 
-            print("CREDENTIALS TYPE:", type(credentials))
-            print("SERVICE ACCOUNT EMAIL:", getattr(credentials, 'service_account_email', None))
-
-            res = f'''
-                CREDENTIALS TYPE:{type(credentials)}
-                SERVICE ACCOUNT EMAIL: {getattr(credentials, 'service_account_email', None)}
-                '''
-
-            # Figure out which service account to use
-            if hasattr(credentials, "service_account_email"):
-                service_account_email = credentials.service_account_email
-            else:
-                # fallback: put your SA email here for dev, or raise error
-                service_account_email = "634639548921-compute@developer.gserviceaccount.com"
-
-            bucket_name = 'dubdebt-bucket'
-            project_id = settings.GCP_PROJECT
-            storage_client = storage.Client(project=project_id)
-            bucket = storage_client.bucket(bucket_name)
-            blob = bucket.blob(self.gcs_path)
-            url = blob.generate_signed_url(
-                version="v2",
-                expiration=600,
-                service_account_email=service_account_email,
-                method="GET",
-                response_disposition=f'attachment; filename="{self.original_name}"'
+            #Impersonate a service account with signing permissions
+            target_credentials = impersonated_credentials.Credentials(
+                source_credentials=credentials,
+                target_principal="634639548921-compute@developer.gserviceaccount.com",
+                target_scopes=["https://www.googleapis.com/auth/cloud-platform"]
             )
-            return res
+
+            client = storage.Client(credentials=target_credentials, project=settings.GCP_PROJECT)
+            bucket = client.get_bucket("dubdebt-bucket")
+            blob = bucket.blob(self.gcs_path)
+            
+            service_account_email = credentials.service_account_email
+            print(f"attempting to create signed url for {service_account_email}")
+            url = blob.generate_signed_url(
+                version="v4",
+                service_account_email=service_account_email,
+                access_token=credentials.token,
+                # This URL is valid for 120 minutes
+                expiration=datetime.timedelta(minutes=120),
+                # Allow PUT requests using this URL.
+                method="PUT",
+                content_type="application/octet-stream",
+            )
+            return url
+
         except Exception as e:
             return f"Error: {str(e)}"
 

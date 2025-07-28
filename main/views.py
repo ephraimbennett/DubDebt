@@ -121,6 +121,12 @@ def sms_send_view(request):
     # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status
     print(f"THIS IS A TASK QUERY TO SEND AN SMS OBJECT TO USER {debtor_id}")
 
+    debtor = Debtor.objects.get(pk=debtor_id)
+    print(f"THIS IS A TASK QUERY TO SEND AN SMS OBJECT TO USER {debtor}")
+
+    return JsonResponse({"status": "ok"}, status=200)
+
+
 def payment_success(request, code):
     debt = get_object_or_404(Debt, unique_code=code)
     debt.amount += debt.interest

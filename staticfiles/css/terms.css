@@ -1,0 +1,80 @@
+/* Terms Page Styles (works with clients.css) */
+
+.terms-hero {
+    max-width: 36em;
+    margin: 2.7em auto 1.4em auto;
+    text-align: center;
+    background: #fff;
+    padding: 2.3em 1em 1.5em 1em;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.terms-title {
+    font-size: 2em;
+    color: var(--green);
+    font-weight: 800;
+    margin-bottom: 0.36em;
+}
+.terms-desc {
+    font-size: 1.13em;
+    color: #31353b;
+    margin-bottom: 0.3em;
+    font-weight: 500;
+}
+.terms-content {
+    max-width: 38em;
+    background: #fff;
+    margin: 0 auto 2.3em auto;
+    padding: 2.1em 1.3em 1.4em 1.3em;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    color: #222;
+}
+.terms-content h2 {
+    font-size: 1.16em;
+    font-weight: 700;
+    color: var(--green);
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+.terms-content h2:first-child {
+    margin-top: 0;
+}
+.terms-list {
+    margin: 0 0 1em 1.1em;
+    padding: 0 0 0 1.1em;
+    font-size: 1.02em;
+    color: #23272f;
+}
+.terms-list li {
+    margin-bottom: 0.43em;
+    line-height: 1.7;
+}
+.terms-content a {
+    color: var(--orange);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.14s;
+}
+.terms-content a:hover {
+    color: var(--green);
+}
+.terms-footer-note {
+    font-size: 0.98em;
+    color: #445;
+    background: #f7f9fb;
+    border-radius: 0.7em;
+    padding: 0.8em 1.1em;
+    margin-top: 2.5em;
+    text-align: center;
+}
+
+@media (max-width: 46em) {
+    .terms-hero,
+    .terms-content {
+        max-width: 100%;
+        border-radius: 1.1em;
+        padding-left: 0.8em;
+        padding-right: 0.8em;
+    }
+}

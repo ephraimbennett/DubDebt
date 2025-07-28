@@ -77,12 +77,15 @@ a {
     height: 2.2em;
     object-fit: contain;
     margin-right: 0.3em;
+    cursor: pointer;
 }
+
 
 .navbar-brand {
     font-weight: 800;
     font-size: 1.17em;
     letter-spacing: 0.01em;
+    cursor: pointer;
 }
 
 .navbar-links {

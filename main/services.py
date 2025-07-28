@@ -3,6 +3,9 @@ from django.conf import settings
 
 import json
 
+import os
+from twilio.rest import Client
+
 from .models import ScheduledMessage
 
 def schedule_sms_task(debtor_id, send_time, message_type):
@@ -48,3 +51,18 @@ def cancel_scheduled_tasks(debtor):
         except Exception as e:
             # Task might already have run or not exist; handle/log gracefully
             pass
+
+
+
+def send_sms_via_twilio(to_number, message_body):
+    account_sid = os.environ['TWILIO_ACCOUNT_SID']
+    auth_token = os.environ['TWILIO_AUTH_TOKEN']
+    from_number = os.environ['TWILIO_PHONE_NUMBER']
+
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        body=message_body,
+        from_=from_number,
+        to=to_number
+    )
+    return message.sid  # Or handle/log as needed

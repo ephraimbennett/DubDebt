@@ -10,7 +10,7 @@ def schedule_sms_task(debtor_id, send_time, message_type):
     project = settings.GCP_PROJECT
     queue = 'sms-targeting'
     location = settings.GCP_REGION
-    url = 'https://dubdebt.com/api/sms/send/'  # Update for your service
+    url = 'https://dubdebt.com/main/api/sms/send/'  # Update for your service
 
     # Unique task name
     task_name = f"debtor-{debtor_id}-{message_type}-{send_time.strftime('%Y%m%d%H%M%S')}"

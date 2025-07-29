@@ -61,3 +61,14 @@ class ScheduledMessage(models.Model):
     message_type = models.CharField(max_length=50)
     status = models.CharField(max_length=20, default="scheduled")
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.task_name
+
+
+class MessageTemplate(models.Model):
+    title = models.CharField(max_length=250)
+    template = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title

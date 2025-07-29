@@ -2,11 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
+from django.urls import reverse
+
+
 import json
 import stripe
-from .models import Debtor, Debt
 
-from django.urls import reverse
+from .models import Debtor, Debt, ScheduledMessage, MessageTemplate
+from.services import send_sms_via_twilio
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -115,14 +119,50 @@ def stripe_webhook(request):
 
 @csrf_exempt
 def sms_send_view(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
     data = json.loads(request.body)
     debtor_id = data['debtor_id']
+    debt_id = data['debt_id']
     message_type = data['message_type']
-    # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status
-    print(f"THIS IS A TASK QUERY TO SEND AN SMS OBJECT TO USER {debtor_id}")
 
+    if not all([debtor_id, debt_id, message_type]):
+        return JsonResponse({'error': 'Missing required parameters'}, status=400)
+
+
+    # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status
+    try:
+        task = ScheduledMessage.objects.get(debtor=debtor, message_type=message_type)
+    except ScheduledMessage.DoesNotExist:
+        task = None
+    except ScheduledMessage.MultipleObjectsReturned:
+        # Handle case where multiple messages exist
+        tasks = ScheduledMessage.objects.filter(
+            debtor=debtor,
+            message_type=message_type
+        )
+        task = tasks.first()
+
+    
     debtor = Debtor.objects.get(pk=debtor_id)
-    print(f"THIS IS A TASK QUERY TO SEND AN SMS OBJECT TO USER {debtor}")
+    debt = Debt.objects.get(pk=debt_id)
+    creditor = debt.creditor_name
+    template_obj = MessageTemplate.get(title=message_type)
+
+    body = template_obj.template
+    body = body.format(name=f"{debtor.first_name} {debtor.last_name}",
+                       creditor=creditor.name,
+                       amount=str(debt.amount + debt.interest),
+                       date = debt.incur_date,
+                       url=f"{settings.BASE_URL}{reverse('url')}{debt.unique_code}/")
+    
+    
+    p = debtor.phone.replace("-", "")
+    phone = f"+1{p}"
+
+    send_sms_via_twilio(phone, body)
 
     return JsonResponse({"status": "ok"}, status=200)
 

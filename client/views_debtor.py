@@ -147,7 +147,7 @@ def debt_collect(request):
         debt = Debt.objects.get(unique_code=data.get('unique_code'))
         for offset_days, message_type in reminder_schedule:
             send_time = start_date + timedelta(days=offset_days)
-            task_name = schedule_sms_task(debt.id, send_time, message_type)
+            task_name = schedule_sms_task(debt.debtor.id, debt.id, send_time, message_type)
             ScheduledMessage.objects.create(
                 debtor=debt.debtor,
                 send_time=send_time,

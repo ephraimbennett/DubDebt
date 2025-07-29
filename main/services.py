@@ -8,12 +8,12 @@ from twilio.rest import Client
 
 from .models import ScheduledMessage
 
-def schedule_sms_task(debtor_id, send_time, message_type):
+def schedule_sms_task(debtor_id, debt_id, send_time, message_type):
     client = tasks_v2.CloudTasksClient()
     project = settings.GCP_PROJECT
     queue = 'sms-targeting'
     location = settings.GCP_REGION
-    url = 'https://dubdebt.com/main/api/sms/send/'  # Update for your service
+    url = 'https://dubdebt.com/main/api/sms/send/'
 
     # Unique task name
     task_name = f"debtor-{debtor_id}-{message_type}-{send_time.strftime('%Y%m%d%H%M%S')}"
@@ -26,6 +26,7 @@ def schedule_sms_task(debtor_id, send_time, message_type):
             'headers': {'Content-type': 'application/json'},
             'body': json.dumps({
                 'debtor_id': debtor_id,
+                'debt_id': debt_id,
                 'message_type': message_type,
             }).encode(),
         },

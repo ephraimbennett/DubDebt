@@ -131,7 +131,12 @@ def sms_send_view(request):
     if not all([debtor_id, debt_id, message_type]):
         return JsonResponse({'error': 'Missing required parameters'}, status=400)
 
+    debtor = Debtor.objects.get(pk=debtor_id)
+    debt = Debt.objects.get(pk=debt_id)
+    creditor = debt.creditor_name
+    template_obj = MessageTemplate.objects.get(title=message_type)
 
+    
     # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status
     try:
         task = ScheduledMessage.objects.get(debtor=debtor, message_type=message_type)
@@ -146,23 +151,22 @@ def sms_send_view(request):
         task = tasks.first()
 
     
-    debtor = Debtor.objects.get(pk=debtor_id)
-    debt = Debt.objects.get(pk=debt_id)
-    creditor = debt.creditor_name
-    template_obj = MessageTemplate.get(title=message_type)
-
+    
     body = template_obj.template
-    body = body.format(name=f"{debtor.first_name} {debtor.last_name}",
+    body = body.format(name=f"{debtor.first_name}",
                        creditor=creditor.name,
-                       amount=str(debt.amount + debt.interest),
+                       amount=(debt.amount + debt.interest),
                        date = debt.incur_date,
-                       url=f"{settings.BASE_URL}{reverse('url')}{debt.unique_code}/")
+                       url=f"{settings.BASE_URL}{reverse('payment', kwargs={'code': debt.unique_code})}")
     
     
     p = debtor.phone.replace("-", "")
     phone = f"+1{p}"
 
     send_sms_via_twilio(phone, body)
+
+    task.status = "filled"
+    task.save()
 
     return JsonResponse({"status": "ok"}, status=200)
 

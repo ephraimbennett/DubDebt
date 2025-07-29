@@ -36,21 +36,23 @@ def schedule_sms_task(debtor_id, debt_id, send_time, message_type):
     return task_name
 
 
-def cancel_scheduled_tasks(debtor):
+def cancel_scheduled_tasks(debt):
     client = tasks_v2.CloudTasksClient()
     project = settings.GCP_PROJECT
-    queue = 'sms-reminders'
+    queue = 'sms-targeting'
     location = settings.GCP_REGION
     parent = client.queue_path(project, location, queue)
-    messages = ScheduledMessage.objects.filter(debtor=debtor, status="scheduled")
+    messages = ScheduledMessage.objects.filter(debt=debt, status="scheduled")
     for msg in messages:
-        task_path = f"{parent}/tasks/{msg.task_name}"
+        task_path = task_path = client.task_path(project, location, queue, msg.task_name)
+        print(task_path)
         try:
             client.delete_task(name=task_path)
             msg.status = "cancelled"
             msg.save()
         except Exception as e:
             # Task might already have run or not exist; handle/log gracefully
+            print(e)
             pass
 
 

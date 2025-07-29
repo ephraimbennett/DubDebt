@@ -56,6 +56,7 @@ class Debt(models.Model):
     
 class ScheduledMessage(models.Model):
     debtor = models.ForeignKey(Debtor, on_delete=models.CASCADE)
+    debt = models.ForeignKey(Debt, on_delete=models.CASCADE, default=None)
     send_time = models.DateTimeField()
     task_name = models.CharField(max_length=255, unique=True)
     message_type = models.CharField(max_length=50)

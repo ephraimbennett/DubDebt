@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('portal-debtors/', views.portal_debtors, name="portal-debtors"),
     path('portal-debtors/edit-debt/', views_debtor.debt_edit, name="debt-edit"),
-    path('portal-debtors/collect-debt/', views_debtor.debt_collect, name='debt-collect')
+    path('portal-debtors/collect-debt/', views_debtor.debt_collect, name='debt-collect'),
+    path('portal-debtors/pause-debt/', views_debtor.debt_pause, name="debt-pause")
 
 ]

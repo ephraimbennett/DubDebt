@@ -128,6 +128,8 @@ def sms_send_view(request):
     debt_id = data['debt_id']
     message_type = data['message_type']
 
+    print(debtor_id, debt_id, message_type)
+
     if not all([debtor_id, debt_id, message_type]):
         return JsonResponse({'error': 'Missing required parameters'}, status=400)
 

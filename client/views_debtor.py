@@ -3,8 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
-from main.services import schedule_sms_task
+
+from main.services import schedule_sms_task, cancel_scheduled_tasks
 from main.models import ScheduledMessage
 
 from datetime import datetime, timedelta
@@ -150,6 +152,7 @@ def debt_collect(request):
             task_name = schedule_sms_task(debt.debtor.id, debt.id, send_time, message_type)
             ScheduledMessage.objects.create(
                 debtor=debt.debtor,
+                debt=debt,
                 send_time=send_time,
                 task_name=task_name,
                 message_type=message_type,
@@ -157,6 +160,32 @@ def debt_collect(request):
             )
         debt.collecting = True
         debt.save()
+        result = {
+            'success': True
+        }
+    except Exception as e:
+        print(e)
+        result = {
+            'success': False
+        }
+    return JsonResponse(result)
+
+@csrf_exempt
+def debt_pause(request):
+    data = json.loads(request.body)
+
+    try:
+        debt = Debt.objects.get(unique_code=data.get('unique_code'))
+        tasks = ScheduledMessage.objects.filter(debt=debt)
+
+        cancel_scheduled_tasks(debt)
+
+        debt.collecting = False
+        debt.save()
+
+        for task in tasks:
+            task.status = "cancelled"
+            task.save()
         result = {
             'success': True
         }

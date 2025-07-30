@@ -28,7 +28,7 @@ def verify(request):
             debtor = Debtor.objects.filter(unique_code=code).first()
             print("All codes:", list(Debtor.objects.values_list('unique_code', flat=True)))
             print(code)
-            request.session['code'] = code
+            request.session['slug'] = None if debtor is not None else debtor.slug
             return JsonResponse({
                 'success': debtor is not None,
                 'url': reverse('balance', kwargs={'slug': debtor.slug} if debtor else None)
@@ -60,8 +60,9 @@ def balance(request, slug):
     return render(request, "balance.html", context)
 
 def balance_redirect(request):
-    if request.session.get('code') is not None:
-        return redirect(reverse('balance_redirect') + request.session.get('code') + "/")
+    print(request.session.get('slug'))
+    if request.session.get('slug') is not None:
+        return redirect(reverse('balance_redirect') + request.session.get('slug') + "/")
     else:
         return redirect(reverse("home"))
 
@@ -93,6 +94,7 @@ def pay_debt(request, code):
         cancel_url=request.build_absolute_uri(f'/main/payment/{slug_name}/{code}/'),
         metadata={'debt_id': debt.unique_code},
     )
+    print(session.success_url)
     return redirect(session.url)
 
 @csrf_exempt
@@ -181,6 +183,7 @@ def sms_send_view(request):
 def payment_success(request, code):
     debt = get_object_or_404(Debt, unique_code=code)
     debt.amount += debt.interest
+    print(debt.is_settled)
     if not debt.is_settled:
         return redirect("/main/")
     context = {

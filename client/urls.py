@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from . import views_debtor
 from . import views_dashboard
+from . import views_settings
 from django.contrib.auth import views as auth_views
 
 
@@ -19,7 +20,7 @@ urlpatterns = [
     path('portal-dashboard/', views_dashboard.dashboard, name="portal-dashboard"),
     path('portal-dashboard/upload/', views_dashboard.upload_file, name="portal-dashboard-upload"),
 
-    path('portal-settings/', views.portal, name="portal-settings"),
+    path('portal-settings/', views_settings.settings, name="portal-settings"),
     path('portal-selloff/', views.portal, name="portal-selloff"),
     path('portal-support/', views.portal, name="portal-support"),
     

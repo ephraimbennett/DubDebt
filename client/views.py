@@ -149,7 +149,7 @@ def getPortalContext(request):
     profile, created = Profile.objects.get_or_create(user=user)
 
     return {
-        'amount_collected': 10.0,
+        'plan': "Per Recovery",
         'dubscore': 100,
         'business_name': profile.business_name,
         'user': user

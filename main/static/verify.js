@@ -45,7 +45,7 @@ function verifyCode() {
         // Handle success
         console.log(data)
         if (data.success) {
-            window.location.href = "/main/balance/" + code + "/";
+            window.location.href = data.url;
             console.log("huh");
         } else {
             alert("Not valid code!");

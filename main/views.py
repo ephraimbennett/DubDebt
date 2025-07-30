@@ -25,19 +25,23 @@ def verify(request):
         data = json.loads(request.body)
         code = data.get('code')
         if code:
-            exists = Debtor.objects.filter(unique_code=code).exists()
+            debtor = Debtor.objects.filter(unique_code=code).first()
             print("All codes:", list(Debtor.objects.values_list('unique_code', flat=True)))
             print(code)
             request.session['code'] = code
-            return JsonResponse({'success': exists})
+            return JsonResponse({
+                'success': debtor is not None,
+                'url': reverse('balance', kwargs={'slug': debtor.slug} if debtor else None)
+                })
     return render(request, "verify.html")  
 
-def balance(request, code):
-    if request.session.get('code') is not None:
-        debtor = get_object_or_404(Debtor, unique_code=request.session['code'])
+def balance(request, slug):
+    print(slug)
+    if request.session.get('slug') is not None:
+        debtor = get_object_or_404(Debtor, slug=request.session['slug'])
     else:
-        debtor = get_object_or_404(Debtor, unique_code=code)
-        request.session['code'] = code
+        debtor = get_object_or_404(Debtor, slug=slug)
+        request.session['slug'] = slug
     debts = debtor.debts.all()
 
     for debt in debts:
@@ -46,13 +50,13 @@ def balance(request, code):
     total = sum((debt.amount + debt.interest) for debt in debts)
     user = {
         'name': str(debtor),
-        'balance': total
+        'balance': total,
+        'name_slug': f"{debtor.first_name.lower()}-{debtor.last_name.lower()}"
     }
     context={
         'user': user,
         'debts': debts
     }
-    print(request.path)
     return render(request, "balance.html", context)
 
 def balance_redirect(request):
@@ -61,7 +65,7 @@ def balance_redirect(request):
     else:
         return redirect(reverse("home"))
 
-def payment(request, code):
+def payment(request, name, code):
     debt = get_object_or_404(Debt, unique_code=code)
     context = {
         'debt': debt
@@ -70,6 +74,7 @@ def payment(request, code):
 
 def pay_debt(request, code):
     debt = get_object_or_404(Debt, unique_code=code)
+    slug_name = f"{debt.debtor.first_name.lower()}-{debt.debtor.last_name.lower()}"
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{
@@ -85,7 +90,7 @@ def pay_debt(request, code):
         }],
         mode='payment',
         success_url=request.build_absolute_uri(f'/main/payment-success/{code}/') + '?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url=request.build_absolute_uri('/main/payment/' + code + '/'),
+        cancel_url=request.build_absolute_uri(f'/main/payment/{slug_name}/{code}/'),
         metadata={'debt_id': debt.unique_code},
     )
     return redirect(session.url)

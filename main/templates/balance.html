@@ -35,7 +35,7 @@
             </span>
             </div>
             <div class="debt-actions">
-                <a href="{% url 'payment' debt.unique_code %}" class="btn-dub">Dub It!</a>
+                <a href="{% url 'payment' user.name_slug debt.unique_code %}" class="btn-dub">Dub It!</a>
             </div>
         </div>
         {% empty %}
@@ -62,7 +62,7 @@
                     <td>${{ debt.interest|floatformat:2 }}</td>
                     <td>{{ debt.incur_date }}</td>
                     <td>
-                        <a href="{% url 'payment' debt.unique_code %}" class="btn-dub">Dub It!</a>
+                        <a href="{% url 'payment' user.name_slug debt.unique_code %}" class="btn-dub">Dub It!</a>
                     </td>
                 </tr>
                 {% empty %}

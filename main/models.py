@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.text import slugify
+
 import uuid
 
 # Create your models here.
@@ -10,11 +12,18 @@ class Debtor(models.Model):
     phone = models.CharField(max_length=20)
     email = models.EmailField()
 
-    unique_code = models.CharField(max_length=12, unique=True, blank=True, null=True)
+    unique_code = models.CharField(max_length=6, unique=True, blank=True, null=True)
+
+    slug = models.SlugField(max_length=70, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.unique_code:
-            self.unique_code = uuid.uuid4().hex[:12].upper()  # 12-char code, easy to type
+            self.unique_code = uuid.uuid4().hex[:6].upper()  # 12-char code, easy to type
+
+        # Always generate slug on save
+        base_slug = slugify(f"{self.first_name} {self.last_name}")
+        self.slug = f"{base_slug}-{self.unique_code}"
+
         super().save(*args, **kwargs)
 
 

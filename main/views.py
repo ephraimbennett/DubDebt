@@ -7,6 +7,7 @@ from django.urls import reverse
 
 import json
 import stripe
+import traceback
 
 from .models import Debtor, Debt, ScheduledMessage, MessageTemplate
 from.services import send_sms_via_twilio
@@ -102,6 +103,7 @@ def stripe_webhook(request):
     print("THIS IS HIT")
     try:
         payload = request.body
+        print("HEADERS:", request.META)
         sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
         endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
         event = None
@@ -122,7 +124,8 @@ def stripe_webhook(request):
             Debt.objects.filter(unique_code=debt_code).update(is_settled=True)
             print("Settled the debt", debt_code)
     except Exception as e:
-        print(e)
+        error_trace = traceback.format_exc()
+        print(error_trace)
         return HttpResponse(status=500)
 
 

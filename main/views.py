@@ -100,26 +100,30 @@ def pay_debt(request, code):
 @csrf_exempt
 def stripe_webhook(request):
     print("THIS IS HIT")
-    payload = request.body
-    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
-    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
-    event = None
-
     try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
-        )
-    except ValueError as e:
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-        return HttpResponse(status=400)
+        payload = request.body
+        sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+        endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+        event = None
 
-    # Handle the event
-    if event['type'] == 'checkout.session.completed':
-        session = event['data']['object']
-        debt_code = session['metadata'].get('debt_id')
-        Debt.objects.filter(unique_code=debt_code).update(is_settled=True)
-        print("Settled the debt", debt_code)
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, endpoint_secret
+            )
+        except ValueError as e:
+            return HttpResponse(status=400)
+        except stripe.error.SignatureVerificationError as e:
+            return HttpResponse(status=400)
+
+        # Handle the event
+        if event['type'] == 'checkout.session.completed':
+            session = event['data']['object']
+            debt_code = session['metadata'].get('debt_id')
+            Debt.objects.filter(unique_code=debt_code).update(is_settled=True)
+            print("Settled the debt", debt_code)
+    except Exception as e:
+        print(e)
+        return HttpResponse(status=500)
 
 
     return HttpResponse(status=200)

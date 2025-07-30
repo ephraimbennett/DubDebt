@@ -45,8 +45,9 @@ function verifyCode() {
         // Handle success
         console.log(data)
         if (data.success) {
+            
             window.location.href = data.url;
-            console.log("huh");
+            console.log(data.url);
         } else {
             alert("Not valid code!");
         }

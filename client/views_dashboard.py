@@ -31,14 +31,14 @@ def dashboard(request):
     if request.GET.get('data-only') == "y":
         # calculate the total amount collected
         profile = Profile.objects.get(user=request.user)
-        creditors = profile.creditors.all()
-        num_debts = len(creditors.first().debts.all())
+        creditor = profile.creditor
+        num_debts = len(creditor.debts.all())
 
         total_outstanding = 0
         total_collected = 0
         paid = 0
         collecting = 0
-        for debt in creditors.first().debts.all():
+        for debt in creditor.debts.all():
             if debt.is_settled:
                 total_collected += (debt.amount + debt.interest)
                 paid += 1

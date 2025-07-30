@@ -22,7 +22,7 @@ from main.models import Creditor, Debt, Debtor
 
 def debtor_get(request):
     profile = Profile.objects.get(user=request.user)
-    creditors = profile.creditors.all()
+    creditors = [profile.creditor]
     debts_json = ""
     debts = []
     for creditor in creditors:
@@ -80,13 +80,12 @@ def debtor_post(request):
         debtor.save()
 
         if data.get("unique_code") is None:
-            # grab creditors for below
+            # grab profile for below
             profile = Profile.objects.get(user=request.user)
-            creditors = profile.creditors.all()
             # add a default debt - can edit / remove 
             debt = Debt()
             debt.debtor = debtor
-            debt.creditor_name = creditors.first()
+            debt.creditor_name = profile.creditor
             debt.amount = 0.0
             debt.interest = 0.0
             debt.incur_date = "2000-01-01"
@@ -109,11 +108,10 @@ def debt_edit(request):
     print(data)
     try:
         if data.get("unique_code") is None:
-            # grab creditors for below
+            # grab profile for below
             profile = Profile.objects.get(user=request.user)
-            creditors = profile.creditors.all()
             debt = Debt()
-            debt.creditor_name = creditors.first()
+            debt.creditor_name = profile.creditor
             debt.debtor = Debtor.objects.get(unique_code=data.get('debtor'))
         else:
             debt = Debt.objects.get(unique_code=data.get('unique_code'))

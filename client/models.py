@@ -14,6 +14,8 @@ from google.auth import impersonated_credentials
 import google.auth
 import os
 
+from main.models import Creditor
+
 
 # Create your models here.
 
@@ -85,6 +87,9 @@ class Profile(models.Model):
     emails = ArrayField(models.CharField(max_length=100), default=list)
 
     intent = models.TextField(null=True, blank=True)
+
+    creditor = models.OneToOneField('main.Creditor', on_delete=models.CASCADE, null=True, blank=True)
+
 
     def __str__(self):
         return self.user.email

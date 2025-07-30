@@ -166,14 +166,17 @@ def sms_send_view(request):
         )
         task = tasks.first()
 
-    
-    
+    name_slug = f"{debtor.first_name.lower()}-{debtor.last_name.lower()}"
+    url = reverse('payment', kwargs={
+            'name': name_slug,
+            'code': debt.unique_code
+        })
     body = template_obj.template
     body = body.format(name=f"{debtor.first_name}",
                        creditor=creditor.name,
                        amount=(debt.amount + debt.interest),
                        date = debt.incur_date,
-                       url=f"{settings.BASE_URL}{reverse('payment', kwargs={'code': debt.unique_code})}")
+                       url=f"{settings.BASE_URL}{url}")
     
     
     p = debtor.phone.replace("-", "")

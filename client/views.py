@@ -117,9 +117,13 @@ def profile_edit(request):
         profile.emails = [emails] if isinstance(emails, str) else emails
 
         # add a creditor object
-        creditors = profile.creditors.all()
-        if is_new_creditor(profile.business_name, creditors):
-            creditor = Creditor(profile= profile, name=profile.business_name, collected=0.0)
+        creditor = profile.creditor
+        if creditor is None:
+            new = Creditor(name=profile.business_name, collected=0.0)
+            new.save()
+            profile.creditor = new
+        else:
+            creditor.name = profile.business_name
             creditor.save()
 
         profile.save()
@@ -163,9 +167,8 @@ def is_new_address(a, current):
     return True
 
 def is_new_creditor(name, current):
-    for c in current:
-        if name == c.name:
-            return False
+    if name == current.name:
+        return False
         
     return True
 

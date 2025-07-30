@@ -34,7 +34,6 @@ class Creditor(models.Model):
     name = models.CharField()
     collected = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
-    profile = models.ForeignKey('client.Profile', on_delete=models.CASCADE, related_name='creditors', null=True)
 
     def __str__(self):
         return self.name

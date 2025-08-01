@@ -34,6 +34,8 @@ class Creditor(models.Model):
     name = models.CharField()
     collected = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    is_stripe_connected = models.BooleanField(default=False)
+    stripe_connect_id = models.CharField(max_length=40, null=True, blank=True)
 
     def __str__(self):
         return self.name

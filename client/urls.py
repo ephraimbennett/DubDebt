@@ -21,6 +21,8 @@ urlpatterns = [
     path('portal-dashboard/upload/', views_dashboard.upload_file, name="portal-dashboard-upload"),
 
     path('portal-settings/', views_settings.settings, name="portal-settings"),
+    path('portal-settings/stripe/', views_settings.stripe_account_link, name="stripe-account-link"),
+
     path('portal-selloff/', views.portal, name="portal-selloff"),
     path('portal-support/', views.portal, name="portal-support"),
     

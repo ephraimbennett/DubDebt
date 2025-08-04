@@ -93,6 +93,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.email
+    
+class WithdrawalSettings(models.Model):
+    method = models.CharField(max_length=30, default="ach")
+    is_stripe_connected = models.BooleanField(default=False)
+    stripe_connect_id = models.CharField(max_length=40, null=True, blank=True)
+    login_link = models.CharField(max_length=150, default="", blank=True)
 
 class UploadedFile(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)

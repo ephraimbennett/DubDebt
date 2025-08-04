@@ -76,25 +76,55 @@ def payment(request, name, code):
 
 def pay_debt(request, code):
     debt = get_object_or_404(Debt, unique_code=code)
+    creditor = debt.creditor_name
+    withdrawals = creditor.withdrawals
     slug_name = f"{debt.debtor.first_name.lower()}-{debt.debtor.last_name.lower()}"
-    session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price_data': {
-                'currency': 'usd',
-                'product_data': {
-                    'name': f'Debt #{debt.unique_code}',
-                    'description': debt.description or '',
+
+    total_amount = (debt.amount + debt.interest)
+    cut = creditor.percent_cut * total_amount
+
+    if withdrawals.is_stripe_connected:
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Debt #{debt.unique_code}',
+                        'description': debt.description or '',
+                    },
+                    'unit_amount': int( total_amount * 100),  # Stripe expects cents!
                 },
-                'unit_amount': int((debt.amount + debt.interest) * 100),  # Stripe expects cents!
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri(f'/main/payment-success/{code}/') + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=request.build_absolute_uri(f'/main/payment/{slug_name}/{code}/'),
+            metadata={'debt_id': debt.unique_code},
+            stripe_account=withdrawals.stripe_connect_id,
+            payment_intent_data={
+                "application_fee_amount": int(cut * 100),  # <-- your platform's cut in cents
             },
-            'quantity': 1,
-        }],
-        mode='payment',
-        success_url=request.build_absolute_uri(f'/main/payment-success/{code}/') + '?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url=request.build_absolute_uri(f'/main/payment/{slug_name}/{code}/'),
-        metadata={'debt_id': debt.unique_code},
-    )
+        )
+    else:
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Debt #{debt.unique_code}',
+                        'description': debt.description or '',
+                    },
+                    'unit_amount': int((debt.amount + debt.interest) * 100),  # Stripe expects cents!
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri(f'/main/payment-success/{code}/') + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=request.build_absolute_uri(f'/main/payment/{slug_name}/{code}/'),
+            metadata={'debt_id': debt.unique_code},
+        )
     print(session.success_url)
     return redirect(session.url)
 

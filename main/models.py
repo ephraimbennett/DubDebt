@@ -34,8 +34,13 @@ class Creditor(models.Model):
     name = models.CharField()
     collected = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    withdrawals = models.OneToOneField('client.WithdrawalSettings', null=True, blank=True, 
+                                       on_delete=models.CASCADE, related_name="creditor")
+
     is_stripe_connected = models.BooleanField(default=False)
     stripe_connect_id = models.CharField(max_length=40, null=True, blank=True)
+
+    percent_cut = models.DecimalField(max_digits=5, decimal_places=3, default=0.1)
 
     def __str__(self):
         return self.name

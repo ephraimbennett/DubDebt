@@ -27,6 +27,27 @@ def settings(request):
     context.update(getPortalContext(request))
     return render(request, "portal_settings.html", context)
 
+@login_required
+def method_data(request):
+    withdrawals, created = WithdrawalSettings.objects.get_or_create(creditor=request.user.profile.creditor)
+
+    res = [
+        {
+            'key': 'stripe',
+            'connected': withdrawals.is_stripe_connected
+        },
+        {
+            'key': 'ach',
+            'connected': withdrawals.is_ach_connected
+        },
+        {
+            'key': 'paypal',
+            'connected': withdrawals.is_ach_connected
+        }
+    ]
+
+    return JsonResponse(res, safe=False)
+
 def stripe_account_link(request):
     if request.method != 'POST':
         return HttpResponseBadRequest("Only POST allowed.") 

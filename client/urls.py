@@ -22,6 +22,7 @@ urlpatterns = [
 
     path('portal-settings/', views_settings.settings, name="portal-settings"),
     path('portal-settings/stripe/', views_settings.stripe_account_link, name="stripe-account-link"),
+    path('portal-settings/method-data/', views_settings.method_data, name="method-data"),
 
     path('portal-selloff/', views.portal, name="portal-selloff"),
     path('portal-support/', views.portal, name="portal-support"),

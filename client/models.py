@@ -96,9 +96,21 @@ class Profile(models.Model):
     
 class WithdrawalSettings(models.Model):
     method = models.CharField(max_length=30, default="ach")
+    
+    # Stripe section
     is_stripe_connected = models.BooleanField(default=False)
     stripe_connect_id = models.CharField(max_length=40, null=True, blank=True)
     login_link = models.CharField(max_length=150, default="", blank=True)
+
+    # ACH section
+    is_ach_connected = models.BooleanField(default=False)
+    ach_link = models.CharField(max_length=150, default="", blank=True)
+
+    # Paypal Section
+    is_paypal_connected = models.BooleanField(default=False)
+    paypal_link = models.CharField(max_length=150, default="", blank=True)
+
+
 
 class UploadedFile(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)

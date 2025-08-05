@@ -38,7 +38,7 @@
             <ul class="navbar-links">
                 <li><a href="/#solutions" class="navbar-link">Solutions</a></li>
                 <li><a href="/#pricing" class="navbar-link">Pricing</a></li>
-                <li><a href="#" class="navbar-link">Resources</a></li>
+                <li><a href="/#faq" class="navbar-link">FAQs</a></li>
                 <!-- Add more links as needed -->
             </ul>
             <div class="navbar-right">
@@ -57,8 +57,8 @@
                 <button class="close-mobile-menu" aria-label="Close menu">&times;</button>
                 <ul class="mobile-links">
                     <li><a href="/#solutions" class="mobile-link">Solutions</a></li>
-                    <li><a href="/#pricing#" class="mobile-link">Pricing</a></li>
-                    <li><a href="#" class="mobile-link">Resources</a></li>
+                    <li><a href="/#pricing" class="mobile-link">Pricing</a></li>
+                    <li><a href="/#faq" class="mobile-link">FAQs</a></li>
                 </ul>
                 {% if user.is_authenticated %}
                 <a href="{% url 'portal-dashboard' %}" class="mobile-btn mobile-btn-primary">Dashboard</a>

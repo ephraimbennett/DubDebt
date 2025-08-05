@@ -1,0 +1,116 @@
+.faq-section {
+  background: #fff;
+  width: 100%;
+  padding: 3em 0 2em 0;
+  display: flex;
+  justify-content: center;
+}
+.faq-container {
+  max-width: 44em;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1.2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.faq-title {
+  font-size: 2em;
+  color: var(--green);
+  font-weight: 800;
+  margin-bottom: 1.7em;
+  text-align: center;
+}
+
+.faq-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.faq-item {
+  background: #f7f9fb;
+  border-radius: 1em;
+  box-shadow: 0 0.03em 0.13em rgba(50,208,106,0.08);
+  padding: 0.1em 0.6em;
+  transition: box-shadow 0.12s;
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  color: #23272f;
+  font-size: 1.12em;
+  font-weight: 600;
+  padding: 1.1em 0.1em 1.1em 0.2em;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.13s;
+  position: relative;
+}
+.faq-question:focus {
+  color: var(--green);
+}
+
+.faq-toggle {
+  display: inline-block;
+  margin-left: 1.1em;
+  width: 1.3em;
+  height: 1.3em;
+  position: relative;
+}
+.faq-toggle::before, .faq-toggle::after {
+  content: '';
+  position: absolute;
+  left: 0.5em;
+  width: 0.18em;
+  height: 1.1em;
+  background: var(--green);
+  border-radius: 0.1em;
+  transition: transform 0.16s;
+}
+.faq-toggle::before {
+  top: 0.1em;
+  transform: rotate(90deg);
+}
+.faq-toggle::after {
+  top: 0.1em;
+}
+.faq-question[aria-expanded="true"] .faq-toggle::after {
+  transform: rotate(90deg);
+}
+.faq-question[aria-expanded="true"] .faq-toggle::before {
+  transform: rotate(90deg) scaleX(0);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding-left: 0.05em;
+  font-size: 1.03em;
+  color: #49505a;
+  transition: max-height 0.25s cubic-bezier(.4,0,.2,1), opacity 0.15s;
+  will-change: max-height, opacity;
+}
+.faq-item.open .faq-answer {
+  max-height: 18em;
+  opacity: 1;
+  padding-bottom: 1.4em;
+  transition: max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.2s;
+}
+
+/* Responsive */
+@media (max-width: 46em) {
+  .faq-container {
+    max-width: 100%;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+  }
+}

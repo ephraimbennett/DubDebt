@@ -88,3 +88,11 @@ class MessageTemplate(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Payment(models.Model):
+    debt = models.OneToOneField(Debt, on_delete=models.CASCADE, related_name="payment", 
+                                null=True, blank=True)
+    
+    date = models.DateField(auto_now_add=True)
+    in_full = models.BooleanField(default=True)
+    method = models.CharField(max_length=25, default="")

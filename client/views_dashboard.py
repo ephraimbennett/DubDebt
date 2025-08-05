@@ -47,11 +47,15 @@ def dashboard(request):
             if debt.collecting:
                 collecting += 1
         print(total_outstanding, total_collected)
+
+        revenue_change = 100.0 if paid > 0 else 0.0
+        outstanding_change = 100.0 if collecting > 0 else 0.0
+
         res = {
             'outstanding': total_outstanding,
             'collected': total_collected,
-            'revenue_change': 201.2,
-            'outstanding_change': 202.3,
+            'revenue_change': revenue_change,
+            'outstanding_change': outstanding_change,
             'repayment_rate': (paid / num_debts) * 100.0,
             'in_collection': collecting,
             'collecting_rate': (collecting / num_debts) * 100.0

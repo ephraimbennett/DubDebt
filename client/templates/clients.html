@@ -10,6 +10,7 @@
         content="DubDebt lets you collect unpaid fees from your clients faster, smarter, and stress-free. Modern SaaS platform for businesses of all sizes.">
     <link rel="stylesheet" href="{% static 'css/clients.css' %}">
     <link rel="stylesheet" href="{% static 'css/solutions.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pricing.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600,800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{% static 'dubdebt_favicon.svg' %}">
 
@@ -35,7 +36,7 @@
             </div>
             <ul class="navbar-links">
                 <li><a href="/#solutions" class="navbar-link">Solutions</a></li>
-                <li><a href="#" class="navbar-link">Pricing</a></li>
+                <li><a href="/#pricing" class="navbar-link">Pricing</a></li>
                 <li><a href="#" class="navbar-link">Resources</a></li>
                 <!-- Add more links as needed -->
             </ul>
@@ -55,7 +56,7 @@
                 <button class="close-mobile-menu" aria-label="Close menu">&times;</button>
                 <ul class="mobile-links">
                     <li><a href="/#solutions" class="mobile-link">Solutions</a></li>
-                    <li><a href="#" class="mobile-link">Pricing</a></li>
+                    <li><a href="/#pricing#" class="mobile-link">Pricing</a></li>
                     <li><a href="#" class="mobile-link">Resources</a></li>
                 </ul>
                 <a href="/signup/" class="mobile-btn mobile-btn-primary">Try for free</a>
@@ -197,6 +198,99 @@
             </section>
 
         </section>
+        <section class="pricing-section" id="pricing">
+            <div class="pricing-container">
+                <h2 class="pricing-title">Transparent, Success-Based Pricing</h2>
+                <div class="pricing-list">
+                    <!-- BASIC PLAN -->
+                    <div class="pricing-card">
+                        <div class="pricing-headline">Basic</div>
+                        <div class="pricing-price">
+                            <span class="pricing-rate">10%</span>
+                            <span class="pricing-sub">of revenue recovered</span>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>
+                                <svg viewBox="0 0 20 20" class="pricing-check">
+                                    <circle cx="10" cy="10" r="10" fill="#32d06a" fill-opacity="0.16" />
+                                    <path d="M6 11l2.2 2L14 8" stroke="#32d06a" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                No upfront fees
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 20 20" class="pricing-check">
+                                    <circle cx="10" cy="10" r="10" fill="#32d06a" fill-opacity="0.16" />
+                                    <path d="M6 11l2.2 2L14 8" stroke="#32d06a" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Pay only when you recover
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 20 20" class="pricing-check">
+                                    <circle cx="10" cy="10" r="10" fill="#32d06a" fill-opacity="0.16" />
+                                    <path d="M6 11l2.2 2L14 8" stroke="#32d06a" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Self-service dashboard
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- SERVICE PLAN -->
+                    <div class="pricing-card">
+                        <div class="pricing-headline">DubDebt Pro</div>
+                        <div class="pricing-price">
+                            <span class="pricing-rate">5%</span>
+                            <span class="pricing-sub">of revenue recovered</span>
+                            <span class="pricing-plus">+</span>
+                            <span class="pricing-sub pricing-subscription">Subscription<br><span
+                                    class="pricing-contact">Contact Sales</span></span>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>
+                                <svg viewBox="0 0 20 20" class="pricing-check">
+                                    <circle cx="10" cy="10" r="10" fill="#32d06a" fill-opacity="0.16" />
+                                    <path d="M6 11l2.2 2L14 8" stroke="#32d06a" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Dedicated onboarding
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 20 20" class="pricing-check">
+                                    <circle cx="10" cy="10" r="10" fill="#32d06a" fill-opacity="0.16" />
+                                    <path d="M6 11l2.2 2L14 8" stroke="#32d06a" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Advanced analytics
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 20 20" class="pricing-check">
+                                    <circle cx="10" cy="10" r="10" fill="#32d06a" fill-opacity="0.16" />
+                                    <path d="M6 11l2.2 2L14 8" stroke="#32d06a" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Priority support
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 20 20" class="pricing-check">
+                                    <circle cx="10" cy="10" r="10" fill="#32d06a" fill-opacity="0.16" />
+                                    <path d="M6 11l2.2 2L14 8" stroke="#32d06a" stroke-width="1.5" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Personalized campaigns
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="pricing-cta-area">
+                    <a href="{% url 'contact' %}" class="pricing-cta-btn">Contact Sales</a>
+                    <div class="pricing-note">
+                        Custom plans available for large organizations—let’s talk!
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     {% endblock %}

@@ -2,6 +2,9 @@
     --green: #32d06a;
     --orange: #ff7600;
     --orange-dark: #d45e04;
+    /*
+    --orange:#2456e0;
+    --orange-dark: #140564;*/
     --accent: var(--green);
     --gray-bg: #f7f9fb;
     --gray: #23272f;

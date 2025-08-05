@@ -10,6 +10,7 @@ import stripe
 import traceback
 
 from .models import Debtor, Debt, ScheduledMessage, MessageTemplate
+from client.models import WithdrawalSettings
 from.services import send_sms_via_twilio
 
 
@@ -77,7 +78,7 @@ def payment(request, name, code):
 def pay_debt(request, code):
     debt = get_object_or_404(Debt, unique_code=code)
     creditor = debt.creditor_name
-    withdrawals = creditor.withdrawals
+    withdrawals, created = WithdrawalSettings.objects.get_or_create(creditor=creditor)
     slug_name = f"{debt.debtor.first_name.lower()}-{debt.debtor.last_name.lower()}"
 
     total_amount = (debt.amount + debt.interest)

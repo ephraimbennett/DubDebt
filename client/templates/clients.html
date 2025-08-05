@@ -59,8 +59,13 @@
                     <li><a href="/#pricing#" class="mobile-link">Pricing</a></li>
                     <li><a href="#" class="mobile-link">Resources</a></li>
                 </ul>
-                <a href="/signup/" class="mobile-btn mobile-btn-primary">Try for free</a>
-                <a href="/login/" class="mobile-btn mobile-btn-secondary">Login</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'portal-dashboard' %}" class="mobile-btn mobile-btn-primary">Dashboard</a>
+                <a href="{% url 'logout' %}" class="mobile-link">Log out</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="mobile-btn mobile-btn-secondary">Login</a>
+                <a href="{% url 'signup' %}" class="mobile-btn mobile-btn-primary">Try for free</a>
+                {% endif %}
             </div>
         </div>
     </nav>
@@ -193,6 +198,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="solution-card">
+                            <div class="solution-icon">
+                                <!-- SVG: for "Litigation Referrals" -->
+                                <svg viewBox="0 0 40 40" width="40" height="40">
+                                    <circle cx="20" cy="20" r="20" fill="#ff7600" fill-opacity="0.09" />
+                                    <g>
+                                        <rect x="22.7" y="13" width="8" height="2.4" rx="1.2"
+                                            transform="rotate(45 22.7 13)" fill="#ff7600" />
+                                        <rect x="15.6" y="20.1" width="8" height="2.4" rx="1.2"
+                                            transform="rotate(45 15.6 20.1)" fill="#ff7600" />
+                                        <rect x="16.8" y="11.7" width="10.5" height="2.4" rx="1.2"
+                                            transform="rotate(45 16.8 11.7)" fill="#ff7600" fill-opacity="0.7" />
+                                        <rect x="10" y="27.2" width="12" height="2.2" rx="1.1" fill="#ff7600"
+                                            fill-opacity="0.8" />
+                                    </g>
+                                </svg>
+
+                            </div>
+                            <div class="solution-content">
+                                <div class="solution-headline">Litigation Referrals</div>
+                                <div class="solution-desc">
+                                    If the first solutions fail, we can set you up with seemless integration into
+                                    legal action. We refer you to the correct attorneys, along with forwarding all the
+                                    necessary documents and information.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -206,7 +239,7 @@
                     <div class="pricing-card">
                         <div class="pricing-headline">Basic</div>
                         <div class="pricing-price">
-                            <span class="pricing-rate">10%</span>
+                            <span class="pricing-rate">20%</span>
                             <span class="pricing-sub">of revenue recovered</span>
                         </div>
                         <ul class="pricing-features">

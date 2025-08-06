@@ -3,6 +3,7 @@ from . import views
 from . import views_debtor
 from . import views_dashboard
 from . import views_settings
+from . import views_payments
 from django.contrib.auth import views as auth_views
 
 
@@ -27,7 +28,9 @@ urlpatterns = [
     path('portal-selloff/', views.portal, name="portal-selloff"),
     path('portal-support/', views.portal, name="portal-support"),
     
-    path('portal-payments/', views.portal, name="portal-payments"),
+    path('portal-payments/', views_payments.payments, name="portal-payments"),
+    path('portal-payments/get-payments/', views_payments.api_payments, name="payments-get"),
+    path('portal-payments/add-payment/', views_payments.api_add_payment, name="payments-add"),
 
     path('portal-debtors/', views.portal_debtors, name="portal-debtors"),
     path('portal-debtors/edit-debt/', views_debtor.debt_edit, name="debt-edit"),

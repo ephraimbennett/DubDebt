@@ -96,3 +96,6 @@ class Payment(models.Model):
     date = models.DateField(auto_now_add=True)
     in_full = models.BooleanField(default=True)
     method = models.CharField(max_length=25, default="")
+
+    def __str__(self):
+        return f"{self.debt.debtor} paid off ${self.debt.amount} to {self.debt.creditor_name}"

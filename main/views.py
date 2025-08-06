@@ -9,7 +9,7 @@ import json
 import stripe
 import traceback
 
-from .models import Debtor, Debt, ScheduledMessage, MessageTemplate
+from .models import Debtor, Debt, ScheduledMessage, MessageTemplate, Payment
 from client.models import WithdrawalSettings
 from.services import send_sms_via_twilio
 
@@ -152,7 +152,11 @@ def stripe_webhook(request):
         if event['type'] == 'checkout.session.completed':
             session = event['data']['object']
             debt_code = session['metadata'].get('debt_id')
-            Debt.objects.filter(unique_code=debt_code).update(is_settled=True)
+            debt = Debt.objects.filter(unique_code=debt_code)
+            debt.update(is_settled=True)
+            debt.update(collecting=False)
+
+            payment = Payment.objects.create(debt=debt, method="stripe")
             print("Settled the debt", debt_code)
     except Exception as e:
         error_trace = traceback.format_exc()

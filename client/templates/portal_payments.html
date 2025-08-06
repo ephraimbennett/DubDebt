@@ -1,0 +1,14 @@
+{% extends "portal_base.html" %}
+
+{% load static %}
+
+{% block title %}Manage Payments{% endblock %}
+
+{% block main %}
+<h2>Manage Payments</h2>
+<!-- Vite static assets here: -->
+<script type="module" src="{% static 'payments/dist/assets/index-B5gZN6DB.js' %}"></script>
+<link rel="stylesheet" href="{% static 'payments/dist/assets/index-DOwpJGfY.css' %}">
+{% csrf_token %}
+    <div id="root"></div>
+{% endblock %}

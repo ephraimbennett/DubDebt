@@ -61,12 +61,13 @@ def debtor_post(request):
         first_name = data.get('first_name')
         last_name = data.get('last_name')
 
+        # Even if they are trying to make a user that already exists, debtor would be the right obj
         debtor, created = Debtor.objects.get_or_create(first_name=first_name, last_name=last_name,
                                                        phone=phone)
         print(created)
     else:
         try:
-            debtor = Debtor.objects.get(unique_code=data.get('unique_code'))
+            debtor, created = Debtor.objects.get(unique_code=data.get('unique_code'))
         except Exception as e:
             print(e)
     try:

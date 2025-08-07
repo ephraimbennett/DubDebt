@@ -150,7 +150,7 @@ class UploadedFile(models.Model):
             return url
 
         except Exception as e:
-            return f"Error: {str(e)}"
+            return f"https://google.com/"
 
 
     def __str__(self):

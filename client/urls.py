@@ -20,6 +20,8 @@ urlpatterns = [
 
     path('portal-dashboard/', views_dashboard.dashboard, name="portal-dashboard"),
     path('portal-dashboard/upload/', views_dashboard.upload_file, name="portal-dashboard-upload"),
+    path('portal-dashboard/get-files/', views_dashboard.get_uploaded_files, name="dashboard-get-files"),
+    path('portal-dashboard/remove-file/', views_dashboard.remove_uploaded_file, name="dashboard-remove-file"),
 
     path('portal-settings/', views_settings.settings, name="portal-settings"),
     path('portal-settings/stripe/', views_settings.stripe_account_link, name="stripe-account-link"),

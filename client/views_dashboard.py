@@ -95,6 +95,36 @@ def upload_file(request):
 
     return JsonResponse({'message': 'Upload successful!', 'filename': file_obj.name})
 
+@login_required
+def get_uploaded_files(request):
+
+    files = UploadedFile.objects.filter(user=request.user.profile)
+
+    file_data = [{
+        'url': file.gcs_signed_url(),
+        'name': file.original_name,
+        'uploaded_at': file.uploaded_at,
+        'size': 3000,
+        'id': file.id,
+    } for file in files]
+
+    print(file_data)
+
+    return JsonResponse(file_data, safe=False)
+
+@login_required
+def remove_uploaded_file(request):
+    if request.method != "POST":
+        return HttpResponseBadRequest(405)
+
+    data = json.loads(request.body)
+    print(data)
+    file = UploadedFile.objects.get(pk=data['id'])
+
+    file.delete()
+
+    return JsonResponse({'success': True})
+
 def getPortalContext(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user)

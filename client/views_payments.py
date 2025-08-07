@@ -25,6 +25,7 @@ def api_payments(request):
     # Grab the all payments that are associated with this
     # Also, preselects the debts and debtors by joining the tables
     payments = Payment.objects.select_related('debt__debtor').filter(debt__creditor_name=request.user.profile.creditor)
+    debts = Debt.objects.select_related('debtor').filter(creditor_name=request.user.profile.creditor)
     
     payments_data = [{
         'title': str(payment),
@@ -40,23 +41,34 @@ def api_payments(request):
         'debtor_name': str(payment.debt.debtor), 
         'debtor_phone': payment.debt.debtor.phone
     } for payment in payments]
+    debts_data = [{
+        'debt_code': debt.unique_code,
+        'debt_id': debt.id,
+        'debt_amount': debt.amount,
+        'debt_interest': debt.interest,
+        'debtor_code': debt.debtor.unique_code,
+        'debtor_name': str(debt.debtor), 
+        'debtor_phone': debt.debtor.phone
+    } for debt in debts]
+    final_data = [payments_data, debts_data]
 
-    return JsonResponse(payments_data, safe=False)
+    return JsonResponse(final_data, safe=False)
 
 def api_add_payment(request):
     if request.method != 'POST':
         return HttpResponseBadRequest(405)
 
     data = json.loads(request.body)
-    debt = get_object_or_404(Debt, unique_code=data['unique_code'])
+    debt = get_object_or_404(Debt, unique_code=data['debt_code'])
 
-    if debt.payment is not None:
+    if (hasattr(debt, 'payment')) and (debt.payment.in_full):
         return JsonResponse({
             'success': False,
             'message': 'The payment already exists'
         })
+    print(data)
     
-    Payment.objects.create(debt=debt, amount=data['amount'], date=data['date'])
+    Payment.objects.create(debt=debt, amount=data['amount'], date=data['date'], method=data['method'])
 
     return JsonResponse({'success': True})
 

@@ -96,6 +96,14 @@ class Payment(models.Model):
     date = models.DateField(auto_now_add=True)
     in_full = models.BooleanField(default=True)
     method = models.CharField(max_length=25, default="")
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+    def save(self, *args, **kwargs):
+        if self.debt and self.amount != 0.0:
+            self.amount = self.debt.amount + self.debt.interest
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.debt.debtor} paid off ${self.debt.amount} to {self.debt.creditor_name}"
+        if self.debt:
+            return f"{self.debt.debtor} paid off ${self.debt.amount} to {self.debt.creditor_name}"
+        return "n/a"

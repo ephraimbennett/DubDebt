@@ -1,0 +1,22 @@
+{% extends "portal_base.html" %}
+
+{% load static %}
+
+{% block title %}{{ business_name }} - Support{% endblock %}
+
+{% block main %}
+<h2>Support</h2>
+<!-- Vite static assets here: -->
+<script type="module" src="{% static 'support/dist/assets/index-Dclq0pLr.js' %}"></script>
+<link rel="stylesheet" href="{% static 'support/dist/assets/index-BujG4Km1.css' %}">
+{% csrf_token %}
+<div>
+    <div id="root"></div> 
+    <style>
+        #root {
+            min-width:75vw;
+            min-height:100%;
+        }
+    </style>
+</div>
+{% endblock %}

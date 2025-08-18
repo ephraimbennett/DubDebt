@@ -155,3 +155,25 @@ class UploadedFile(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.original_name}"
+    
+
+class Issue(models.Model):
+    title = models.CharField(max_length=1024)
+    priority = models.CharField(max_length=20)
+    description = models.TextField()
+
+    resolved = models.BooleanField(default=False)
+
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="issues")
+
+    def __str__(self):
+        return f"{self.user} - {self.title}"
+
+class MeetingRequest(models.Model):
+    reason = models.TextField()
+
+    date_time = models.DateTimeField()
+    method = models.CharField(max_length=20)
+
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="meetings")
+

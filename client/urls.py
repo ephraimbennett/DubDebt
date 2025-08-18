@@ -32,6 +32,7 @@ urlpatterns = [
 
     path('portal-support/', views_support.support, name="portal-support"),
     path('portal-support/raise-issue/', views_support.raise_issue, name="support-raise-issue"),
+    path('portal-support/request-meeting/', views_support.request_meeting, name="support-request-meeting"),
     
     path('portal-payments/', views_payments.payments, name="portal-payments"),
     path('portal-payments/get-payments/', views_payments.api_payments, name="payments-get"),

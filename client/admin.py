@@ -3,7 +3,7 @@ from .models import Member
 from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 from .forms import MemberChangeForm, MemberCreationForm
-from .models import Member, Profile, Address, UploadedFile, WithdrawalSettings
+from .models import Member, Profile, Address, UploadedFile, WithdrawalSettings, Issue
 
 class MemberAdmin(UserAdmin):
     # Set the forms for a member
@@ -69,3 +69,4 @@ class UploadedFileAdmin(admin.ModelAdmin):
     download_link.short_description = "Download File"
 
 admin.site.register(WithdrawalSettings)
+admin.site.register(Issue)

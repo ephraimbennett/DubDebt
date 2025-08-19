@@ -42,6 +42,21 @@ def raise_issue(request):
 
     return JsonResponse({'success': True})
 
+def tickets(request):
+    # get both issue and meeting request objects
+    issues = Issue.objects.filter(user=request.user.profile)
+
+    # format nicely
+    data = [{'id': iss.id,
+             'subject': iss.title,
+             'category': f"Issue: {iss.priority}",
+             'status': "resolved" if iss.resolved else "open",
+             'updated_at': iss.updated_at,
+             'assignee': str(request.user.profile)
+            
+             } for iss in issues]
+    return JsonResponse(data, safe=False)
+
 def request_meeting(request):
     data = json.loads(request.body)
 

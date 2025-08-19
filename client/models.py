@@ -166,6 +166,10 @@ class Issue(models.Model):
 
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="issues")
 
+    created_at = models.DateTimeField(auto_now_add=True, null=True)  # Auto-set on creation
+    updated_at = models.DateTimeField(auto_now=True, null=True)      # Auto-updated on save
+
+
     def __str__(self):
         return f"{self.user} - {self.title}"
 
@@ -176,4 +180,8 @@ class MeetingRequest(models.Model):
     method = models.CharField(max_length=20)
 
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="meetings")
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)  # Auto-set on creation
+    updated_at = models.DateTimeField(auto_now=True, null=True)      # Auto-updated on save
+
 

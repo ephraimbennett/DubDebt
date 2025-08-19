@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'DubDebt.middleware.HostSwitchURLConf',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,7 +127,7 @@ USE_TZ = True
 # CSRF
 CSRF_TRUSTED_ORIGINS = ["https://dubdebt-634639548921.us-central1.run.app", "https://dubdebt.com", 
                         "https://www.dubdebt.com", "http://localhost:5173",
-                        "http://127.0.0.1:5173",]
+                        "http://127.0.0.1:5173", "https://secure.dubdebt.com",]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -162,3 +163,15 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 BASE_URL = "https://dubdebt.com"
+
+# These are settings I added after adding "secure" subdomain
+
+# Ensures cookies are only sent over https - only in prod.
+SESSION_COOKIE_SECURE = not DEBUG 
+CSRF_COOKIE_SECURE    = not DEBUG
+
+# Redirect HTTP→HTTPS (only in prod; keep off for localhost)
+SECURE_SSL_REDIRECT = not DEBUG
+
+# Django behind Cloud Run / proxy (safe to leave on)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

@@ -29,7 +29,9 @@ function getCookie(name) {
 function verifyCode() {
     csrftoken = getCookie('csrftoken');
     code = document.getElementById('code').value.trim();
-    fetch('/main/verify/', {
+    path = window.location.href.split("dubdebt.com")[1];
+    console.log(window.location.href);
+    fetch(window.location.href, {
         method: 'POST',
         headers: {
             'X-CSRFToken': csrftoken,

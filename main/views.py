@@ -28,9 +28,11 @@ def verify(request):
         code = data.get('code')
         if code:
             debtor = Debtor.objects.filter(unique_code=code).first()
+            if debtor is None:
+                return JsonResponse({'success': False, 'url': None})
             print("All codes:", list(Debtor.objects.values_list('unique_code', flat=True)))
             print(code)
-            request.session['slug'] = None if debtor is not None else debtor.slug
+            request.session['slug'] = None if debtor is None else debtor.slug
             return JsonResponse({
                 'success': debtor is not None,
                 'url': reverse('balance', kwargs={'slug': debtor.slug} if debtor else None)
@@ -84,6 +86,15 @@ def pay_debt(request, code):
     total_amount = (debt.amount + debt.interest)
     cut = creditor.percent_cut * total_amount
 
+    success_path = reverse("payment-success", args=[code])
+    cancel_path  = reverse("payment", args=[slug_name, code])
+
+    # Keep the {CHECKOUT_SESSION_ID} literal; Stripe replaces it.
+    success_url = request.build_absolute_uri(success_path) + "?session_id={CHECKOUT_SESSION_ID}"
+    cancel_url  = request.build_absolute_uri(cancel_path)
+
+
+
     if withdrawals.is_stripe_connected:
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -99,8 +110,8 @@ def pay_debt(request, code):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=request.build_absolute_uri(f'/main/payment-success/{code}/') + '?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=request.build_absolute_uri(f'/main/payment/{slug_name}/{code}/'),
+            success_url=success_url,
+            cancel_url=cancel_url,
             metadata={'debt_id': debt.unique_code},
             stripe_account=withdrawals.stripe_connect_id,
             payment_intent_data={
@@ -122,8 +133,8 @@ def pay_debt(request, code):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url=request.build_absolute_uri(f'/main/payment-success/{code}/') + '?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=request.build_absolute_uri(f'/main/payment/{slug_name}/{code}/'),
+            success_url=success_url,
+            cancel_url=cancel_url,
             metadata={'debt_id': debt.unique_code},
         )
     print(session.success_url)

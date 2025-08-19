@@ -213,10 +213,11 @@ def sms_send_view(request):
         task = tasks.first()
 
     name_slug = f"{debtor.first_name.lower()}-{debtor.last_name.lower()}"
-    url = reverse('payment', kwargs={
+    '''url = reverse('payment', kwargs={
             'name': name_slug,
             'code': debt.unique_code
-        })
+        })'''
+    url = "https://secure.dubdebt.com/payment/{name_slug}/{debt.unique_code}/"
     body = template_obj.template
     body = body.format(name=f"{debtor.first_name}",
                        creditor=creditor.name,

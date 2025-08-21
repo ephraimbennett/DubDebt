@@ -217,7 +217,7 @@ def sms_send_view(request):
             'name': name_slug,
             'code': debt.unique_code
         })'''
-    url = "https://secure.dubdebt.com/payment/{name_slug}/{debt.unique_code}/"
+    url = f"https://secure.dubdebt.com/payment/{name_slug}/{debt.unique_code}/"
     body = template_obj.template
     body = body.format(name=f"{debtor.first_name}",
                        creditor=creditor.name,

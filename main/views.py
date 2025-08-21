@@ -223,7 +223,7 @@ def sms_send_view(request):
                        creditor=creditor.name,
                        amount=(debt.amount + debt.interest),
                        date = debt.incur_date,
-                       url=f"{settings.BASE_URL}{url}")
+                       url=f"{url}")
     
     
     p = debtor.phone.replace("-", "")

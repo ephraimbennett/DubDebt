@@ -199,9 +199,12 @@ def sms_send_view(request):
     creditor = debt.creditor_name
     
     template_obj = None
-    router, created = MessageTemplateRouter.objects.get_or_create(
-        user=request.user.profile)
-    template_obj = router.get_template(message_type)
+    try:
+        router, created = MessageTemplateRouter.objects.get_or_create(
+            user=request.user.profile)
+        template_obj = router.get_template(message_type)
+    except Exception as e:
+        print(e)
 
     
     # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status

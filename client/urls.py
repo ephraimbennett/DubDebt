@@ -5,6 +5,7 @@ from . import views_dashboard
 from . import views_settings
 from . import views_payments
 from . import views_support
+from . import views_templates
 from django.contrib.auth import views as auth_views
 
 
@@ -28,7 +29,7 @@ urlpatterns = [
     path('portal-settings/stripe/', views_settings.stripe_account_link, name="stripe-account-link"),
     path('portal-settings/method-data/', views_settings.method_data, name="method-data"),
 
-    path('portal-selloff/', views.portal, name="portal-selloff"),
+    path('portal-templates/', views_templates.templates, name="portal-templates"),
 
     path('portal-support/', views_support.support, name="portal-support"),
     path('portal-support/raise-issue/', views_support.raise_issue, name="support-raise-issue"),

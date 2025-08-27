@@ -9,7 +9,7 @@ import json
 import stripe
 import traceback
 
-from .models import Debtor, Debt, ScheduledMessage, MessageTemplate, Payment
+from .models import Debtor, Debt, ScheduledMessage, MessageTemplate, Payment, CustomSMSTemplate, MessageTemplateRouter
 from client.models import WithdrawalSettings
 from.services import send_sms_via_twilio
 
@@ -196,7 +196,10 @@ def sms_send_view(request):
     debtor = Debtor.objects.get(pk=debtor_id)
     debt = Debt.objects.get(pk=debt_id)
     creditor = debt.creditor_name
-    template_obj = MessageTemplate.objects.get(title=message_type)
+
+    router, created = MessageTemplateRouter.objects.get_or_create(user=request.user.profile)
+    template_obj = router.get_template(message_type)
+    #template_obj = MessageTemplate.objects.get(title=message_type)
 
     
     # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
+
 import uuid
 
 # Create your models here.
@@ -88,6 +89,52 @@ class MessageTemplate(models.Model):
 
     def __str__(self):
         return self.title
+    
+class CustomSMSTemplate(models.Model):
+    title = models.CharField(max_length=250)
+    template = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+class MessageTemplateRouter(models.Model):
+
+    user = models.OneToOneField('client.Profile', on_delete=models.CASCADE, null=True
+                                        , related_name="sms_router")
+
+    # foreign keys for the CUSTOM templates. If null, then use default
+    initial = models.ForeignKey(CustomSMSTemplate, on_delete=models.SET_NULL, 
+                                      null=True, blank=True, related_name="router_init")
+    
+    followup1 = models.ForeignKey(CustomSMSTemplate, on_delete=models.SET_NULL, 
+                                      null=True, blank=True, related_name="router1")
+    
+    followup2 = models.ForeignKey(CustomSMSTemplate, on_delete=models.SET_NULL, 
+                                      null=True, blank=True, related_name="router2")
+    
+    def __str__(self):
+        return f"Message Router for {str(self.user)}"
+
+    def get_template(self, message_type):
+
+        field_map = {
+            'initial': self.initial,
+            'followup1': self.followup1,
+            'followup2': self.followup2
+        }
+
+        custom_template = field_map.get(message_type)
+        if custom_template:
+            return custom_template
+        
+        try:
+            default_template = MessageTemplate.objects.get(name=message_type)
+            return default_template
+        except MessageTemplate.DoesNotExist:
+            # Handle case where no template exists
+            return None
+
+
     
 class Payment(models.Model):
     debt = models.OneToOneField(Debt, on_delete=models.CASCADE, related_name="payment", 

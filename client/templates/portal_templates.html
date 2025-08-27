@@ -1,0 +1,22 @@
+{% extends "portal_base.html" %}
+
+{% load static %}
+
+{% block title %}{{ business_name }} - Templates{% endblock %}
+
+{% block main %}
+<h2>Message Templates</h2>
+<!-- Vite static assets here: -->
+<script type="module" src="{% static 'support/dist/assets/index-DPM4fPUC.js' %}"></script>
+<link rel="stylesheet" href="{% static 'support/dist/assets/index-BmQW1xHR.css' %}">
+{% csrf_token %}
+<div>
+    <div id="root"></div> 
+    <style>
+        #root {
+            min-width:75vw;
+            min-height:100%;
+        }
+    </style>
+</div>
+{% endblock %}

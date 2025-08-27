@@ -201,7 +201,7 @@ def sms_send_view(request):
     template_obj = None
     try:
         router, created = MessageTemplateRouter.objects.get_or_create(
-            user=request.user.profile)
+            user=creditor.profile)
         template_obj = router.get_template(message_type)
     except Exception as e:
         print(e)

@@ -6,11 +6,14 @@
 
 {% block main %}
 <!-- Vite static assets here: -->
-<script type="module" src="{% static 'templates/dist/assets/index-DRHWQiEe.js' %}"></script>
+<script type="module" src="{% static 'templates/dist/assets/index-CtAze89r.js' %}"></script>
 <link rel="stylesheet" href="{% static 'templates/dist/assets/index-BHhRXLOA.css' %}">
 
 <script id="templates-data" type="application/json">
   {{ templates|safe }}
+</script>
+<script id="customs-data" type="application/json">
+    {{ custom_templates|safe }}
 </script>
 {% csrf_token %}
 <div>

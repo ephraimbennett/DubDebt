@@ -127,8 +127,9 @@ class MessageTemplateRouter(models.Model):
         if custom_template:
             return custom_template
         
+        print(message_type)
         try:
-            default_template = MessageTemplate.objects.get(name=message_type)
+            default_template = MessageTemplate.objects.get(title=message_type)
             return default_template
         except MessageTemplate.DoesNotExist:
             # Handle case where no template exists

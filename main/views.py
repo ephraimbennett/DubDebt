@@ -10,6 +10,7 @@ import stripe
 import traceback
 
 from .models import Debtor, Debt, ScheduledMessage, MessageTemplate, Payment, CustomSMSTemplate, MessageTemplateRouter
+from client.models import Profile
 from client.models import WithdrawalSettings
 from.services import send_sms_via_twilio
 
@@ -182,7 +183,7 @@ def sms_send_view(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-
+    print(request.body)
     data = json.loads(request.body)
     debtor_id = data['debtor_id']
     debt_id = data['debt_id']
@@ -196,10 +197,11 @@ def sms_send_view(request):
     debtor = Debtor.objects.get(pk=debtor_id)
     debt = Debt.objects.get(pk=debt_id)
     creditor = debt.creditor_name
-
-    router, created = MessageTemplateRouter.objects.get_or_create(user=request.user.profile)
+    
+    template_obj = None
+    router, created = MessageTemplateRouter.objects.get_or_create(
+        user=request.user.profile)
     template_obj = router.get_template(message_type)
-    #template_obj = MessageTemplate.objects.get(title=message_type)
 
     
     # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status

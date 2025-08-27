@@ -228,10 +228,11 @@ def sms_send_view(request):
     url = f"https://secure.dubdebt.com/payment/{name_slug}/{debt.unique_code}/"
     body = template_obj.template
     body = body.format(name=f"{debtor.first_name}",
-                       creditor=creditor.name,
+                       business_name=creditor.name,
                        amount=(debt.amount + debt.interest),
-                       date = debt.incur_date,
-                       url=f"{url}")
+                       due_date = debt.incur_date,
+                       opt_out = "Reply STOP to opt out",
+                       pay_link=f"{url}")
     
     
     p = debtor.phone.replace("-", "")

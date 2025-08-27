@@ -5,6 +5,7 @@ from django.core.serializers import serialize
 from django.http import JsonResponse, HttpResponseBadRequest
 
 from .models import Profile
+from main.models import MessageTemplate
 
 import json
 
@@ -13,6 +14,15 @@ import json
 def templates(request):
 
     context = getPortalContext(request)
+
+    # return default template stuff as JSON
+    templates = MessageTemplate.objects.all()
+    data = [{
+        'title': t.title,
+        'template': t.template
+    } for t in templates]
+
+    context['templates'] = json.dumps(data)
 
     return render(request, "portal_templates.html", context)
 

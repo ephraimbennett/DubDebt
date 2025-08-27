@@ -5,10 +5,13 @@
 {% block title %}{{ business_name }} - Templates{% endblock %}
 
 {% block main %}
-<h2>Message Templates</h2>
 <!-- Vite static assets here: -->
-<script type="module" src="{% static 'support/dist/assets/index-DPM4fPUC.js' %}"></script>
-<link rel="stylesheet" href="{% static 'support/dist/assets/index-BmQW1xHR.css' %}">
+<script type="module" src="{% static 'templates/dist/assets/index-DRHWQiEe.js' %}"></script>
+<link rel="stylesheet" href="{% static 'templates/dist/assets/index-BHhRXLOA.css' %}">
+
+<script id="templates-data" type="application/json">
+  {{ templates|safe }}
+</script>
 {% csrf_token %}
 <div>
     <div id="root"></div> 

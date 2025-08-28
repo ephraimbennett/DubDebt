@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseNotAllowed
 
 from .models import Profile
 from main.models import MessageTemplate, CustomSMSTemplate, MessageTemplateRouter
@@ -35,6 +35,22 @@ def templates(request):
     context['custom_templates'] = json.dumps(custom_data)
 
     return render(request, "portal_templates.html", context)
+
+def set_message_template(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            new_templates = data.get('new_templates')
+            sms_router, created = MessageTemplateRouter.objects.get_or_create(request.user.profile)
+            print(new_templates)
+            # should be 
+            sms_router.set_template(new_templates)
+        except Exception as e:
+            print(e)
+            return HttpResponseBadRequest("Data was malformed.")
+        else:
+            return JsonResponse({'success': True})
+    return HttpResponseNotAllowed("Wrong ")
 
 
 def getPortalContext(request):

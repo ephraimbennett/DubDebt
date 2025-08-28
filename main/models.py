@@ -134,6 +134,28 @@ class MessageTemplateRouter(models.Model):
         except MessageTemplate.DoesNotExist:
             # Handle case where no template exists
             return None
+    
+    def set_template(self, new_templates):
+        field_map = {
+            'initial': 'initial',
+            'followup1': 'followup1',
+            'followup2': 'followup2'
+        }
+        
+        try:
+            key = new_templates['key']
+            draft = new_templates['draft']
+            custom = getattr(self, field_map[key])
+            if custom:
+                # Update the template attribute of the existing CustomSMSTemplate
+                custom = getattr(self, field_map[key])
+                custom.template = draft
+                custom.save()
+            else:
+                # Create a new CustomSMSTemplate and assign it to the appropriate attribute
+                setattr(self, key, CustomSMSTemplate.objects.create(title=key, template=draft))
+        except KeyError as e:
+            raise ValueError(f"Missing required key in new_templates: {e}")
 
 
     

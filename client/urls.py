@@ -7,7 +7,13 @@ from . import views_payments
 from . import views_support
 from . import views_templates
 from django.contrib.auth import views as auth_views
+from django.views.generic.base import TemplateView
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import StaticViewSitemap
 
+sitemaps = {
+    "static": StaticViewSitemap
+}
 
 urlpatterns = [
     path('', views.clients, name="clients"),
@@ -16,6 +22,9 @@ urlpatterns = [
     path('privacy/', views.privacy, name="privacy"),
     path('contact/', views.contact, name="contact"),
     path('terms/', views.terms, name="terms"),
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
+
 
     path('profile-edit/', views.profile_edit, name="profile-edit"),
     path('portal/', views.portal, name="portal"),

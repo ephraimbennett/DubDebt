@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,16 @@
     <link rel="icon" type="image/x-icon" href="{% static 'dubdebt_favicon.svg' %}">
     {% block styles %} {% endblock %}
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9GH6JE9JM5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-9GH6JE9JM5');
+</script>
+
 <body>
     {% block scripts %} {% endblock %}
     <nav class="navbar">
@@ -27,13 +38,14 @@
         <div class="hero-content">
             <h1 class="slogan">It's time to <span class="accent">Dub</span> your Debt</h1>
             <p class="description">
-                Tired of shady collectors and confusing calls? We make it simple. 
+                Tired of shady collectors and confusing calls? We make it simple.
                 Settle what you owe — online, in minutes. No pressure. No stress.
             </p>
             <a href="{% url 'verify' %}" class="btn-check-balance">Check my Balance</a>
         </div>
         <div class="hero-image">
-            <img src="https://assets.softr-files.com/applications/1263f5c5-5c4a-4a64-8900-840c8d07d2e2/assets/b64b9490-63af-46ec-a0d3-78dabc7cf9e0.png" alt="Hero illustration" class="hero-img">
+            <img src="https://assets.softr-files.com/applications/1263f5c5-5c4a-4a64-8900-840c8d07d2e2/assets/b64b9490-63af-46ec-a0d3-78dabc7cf9e0.png"
+                alt="Hero illustration" class="hero-img">
         </div>
     </main>
 
@@ -48,4 +60,5 @@
         </div>
     </footer>
 </body>
+
 </html>

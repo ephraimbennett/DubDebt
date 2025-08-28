@@ -17,6 +17,15 @@
 
     {% block styles %} {% endblock %}
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9GH6JE9JM5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-9GH6JE9JM5');
+</script>
 
 <body>
     <script src="{% static 'js/client.js' %}"></script>
@@ -388,9 +397,10 @@
                         </button>
                         <div class="faq-answer" id="faq6-answer" aria-labelledby="faq6">
                             Funds are either deposited directly to your designated business account, less our fee via
-                            our partnership with Stripe Connect. You see every transaction in your dashboard, in real time.
+                            our partnership with Stripe Connect. You see every transaction in your dashboard, in real
+                            time.
                             Alternatively, payments made to DubDebt could be electronically deposited into our trust
-                            accounts. We would then 
+                            accounts. We would then
                             provides client remittances on a monthly basis via electronic ACH transfer or, Paypal,
                             or if necessary, by paper check.
                         </div>

@@ -19,6 +19,7 @@ urlpatterns = [
     path('', views.clients, name="clients"),
     path('login/', views.login_user, name='login'),
     path('signup/', views.signup, name="signup"),
+    path('auth-receiver/', views.auth_receiver, name="auth-receiver-google"),
     path('privacy/', views.privacy, name="privacy"),
     path('contact/', views.contact, name="contact"),
     path('terms/', views.terms, name="terms"),

@@ -56,9 +56,9 @@ def dashboard(request):
             'collected': total_collected,
             'revenue_change': revenue_change,
             'outstanding_change': outstanding_change,
-            'repayment_rate': (paid / num_debts) * 100.0,
+            'repayment_rate': (paid / num_debts) * 100.0 if num_debts > 0 else 0,
             'in_collection': collecting,
-            'collecting_rate': (collecting / num_debts) * 100.0
+            'collecting_rate': (collecting / num_debts) * 100.0 if num_debts > 0 else 0
         }
         return JsonResponse(res)
     else:

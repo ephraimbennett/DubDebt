@@ -14,12 +14,12 @@
         <form method="post" class="login-form" autocomplete="off">
             {% csrf_token %}
             {% if errors %}
-                <div class="form-error-multi">
-                    <ul>
-                        
-                        <li>{{ errors }}</li>
-                    </ul>
-                </div>
+            <div class="form-error-multi">
+                <ul>
+
+                    <li>{{ errors }}</li>
+                </ul>
+            </div>
             {% endif %}
             <div class="form-group">
                 <label for="email">Email</label>
@@ -51,7 +51,8 @@
                 <label for="confirm_password">Confirm password</label>
                 <div class="password-input-wrapper">
                     <input type="password" id="password2" name="password2" required autocomplete="new-password">
-                    <button type="button" id="toggle-confirm-password" class="toggle-password" aria-label="Show password">
+                    <button type="button" id="toggle-confirm-password" class="toggle-password"
+                        aria-label="Show password">
                         <img id="eye2-open" src="{% static 'images/eye_open.svg' %}" alt="" style="display:inline;">
                         <img id="eye2-closed" src="{% static 'images/eye_closed.svg' %}" alt="" style="display:none;">
                     </button>
@@ -60,9 +61,18 @@
             <button type="submit" class="btn-login">Create account</button>
         </form>
         <div class="oauth-section">
-            <div class="oauth-label">or sign up with</div>
+            <div class="oauth-label">or use OAuth 2.0</div>
             <!-- OAuth providers go here -->
-            <div class="oauth-placeholder"></div>
+            <script src="https://accounts.google.com/gsi/client" async></script>
+            <div id="g_id_onload"
+                data-client_id="634639548921-k0i36g4n5lsdet958g34jkapu78q8h87.apps.googleusercontent.com"
+                data-context="signin" data-ux_mode="popup" data-login_uri="https://dubdebt.com/auth-receiver/"
+                data-auto_prompt="false">
+            </div>
+
+            <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with"
+                data-size="large" data-logo_alignment="left">
+            </div>
         </div>
         <div class="login-extra">
             Already have an account?

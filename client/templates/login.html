@@ -34,9 +34,18 @@
             <button type="submit" class="btn-login">Sign in</button>
         </form>
         <div class="oauth-section">
-            <div class="oauth-label">or sign in with</div>
+            <div class="oauth-label">or use OAuth 2.0</div>
             <!-- OAuth providers go here -->
-            <div class="oauth-placeholder"></div>
+            <script src="https://accounts.google.com/gsi/client" async></script>
+            <div id="g_id_onload"
+                data-client_id="634639548921-k0i36g4n5lsdet958g34jkapu78q8h87.apps.googleusercontent.com"
+                data-context="signin" data-ux_mode="popup" data-login_uri="https://dubdebt.com/auth-receiver/"
+                data-auto_prompt="false">
+            </div>
+
+            <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with"
+                data-size="large" data-logo_alignment="left">
+            </div>
         </div>
         <div class="login-extra">
             <a href="{% url 'password_reset' %}">Forgot password?</a>

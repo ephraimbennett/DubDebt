@@ -6,7 +6,13 @@ import json
 import os
 from twilio.rest import Client
 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, TrackingSettings, ClickTracking
+
 from .models import ScheduledMessage
+
+SENDGRID_KEY = os.environ["SENDGRID_API_KEY"]
+SENDGRID_FROM = os.environ["SENDGRID_FROM"]
 
 def schedule_sms_task(debtor_id, debt_id, send_time, message_type):
     client = tasks_v2.CloudTasksClient()
@@ -69,3 +75,37 @@ def send_sms_via_twilio(to_number, message_body):
         to=to_number
     )
     return message.sid  # Or handle/log as needed
+
+def send_email_sendgrid(*, to: str, subject: str, text: str, html: str = ""):
+    if len(html) > 0:
+        message = Mail(
+            from_email=SENDGRID_FROM,
+            to_emails=to,
+            subject=subject,
+            plain_text_content=text,
+            html_content=html,
+        )
+    else:
+        message = Mail(
+            from_email=SENDGRID_FROM,
+            to_emails=to,
+            subject=subject,
+            plain_text_content=text,
+        )
+    # disable click tracking
+    tracking = TrackingSettings(click_tracking=ClickTracking(enable=False))
+    message.tracking_settings = tracking
+    try:
+        sg = SendGridAPIClient(SENDGRID_KEY)
+        response = sg.send(message)
+        return {"status": response.status_code, "headers": dict(response.headers)}
+    except Exception as e:
+        # SendGrid exceptions often have .body and .status_code
+        try:
+            body = getattr(e, "body", None)
+            code = getattr(e, "status_code", None)
+            raise RuntimeError(f"SendGrid 400: status={code}, body={body}") from e
+        except Exception:
+            # Fallback (some envs wrap differently)
+            raise RuntimeError(f"SendGrid error: {e}")
+

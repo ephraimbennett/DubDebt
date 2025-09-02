@@ -10,9 +10,10 @@ import stripe
 import traceback
 
 from .models import Debtor, Debt, ScheduledMessage, MessageTemplate, Payment, CustomSMSTemplate, MessageTemplateRouter
+from .models import EmailTemplate
 from client.models import Profile
 from client.models import WithdrawalSettings
-from.services import send_sms_via_twilio
+from .services import send_sms_via_twilio, send_email_sendgrid
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -183,7 +184,6 @@ def sms_send_view(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-    print(request.body)
     data = json.loads(request.body)
     debtor_id = data['debtor_id']
     debt_id = data['debt_id']
@@ -207,7 +207,7 @@ def sms_send_view(request):
         print(e)
 
     
-    # Lookup debtor, construct message, send via Twilio, update ScheduledMessage status
+    # Handle scheduled message and then send out sms + email 
     try:
         task = ScheduledMessage.objects.get(debtor=debtor, message_type=message_type)
     except ScheduledMessage.DoesNotExist:
@@ -219,7 +219,8 @@ def sms_send_view(request):
             message_type=message_type
         )
         task = tasks.first()
-
+    
+    # sms section
     name_slug = f"{debtor.first_name.lower()}-{debtor.last_name.lower()}"
     '''url = reverse('payment', kwargs={
             'name': name_slug,
@@ -227,18 +228,32 @@ def sms_send_view(request):
         })'''
     url = f"https://secure.dubdebt.com/payment/{name_slug}/{debt.unique_code}/"
     body = template_obj.template
+    print(body)
     body = body.format(name=f"{debtor.first_name}",
                        business_name=creditor.name,
                        amount=(debt.amount + debt.interest),
                        due_date = debt.incur_date,
                        opt_out = "Reply STOP to opt out",
-                       pay_link=f"{url}")
+                       pay_link=f"{url}",
+                       date=debt.incur_date)
     
     
     p = debtor.phone.replace("-", "")
     phone = f"+1{p}"
 
     send_sms_via_twilio(phone, body)
+
+    # email section
+    email_template = EmailTemplate.objects.get(type=message_type)
+    body = email_template.body.format(name=f"{debtor.first_name}",
+                       business_name=creditor.name,
+                       amount=(debt.amount + debt.interest),
+                       due_date = debt.incur_date,
+                       pay_link=f"{url}",
+                       date=debt.incur_date)
+    subject = email_template.subject.format(business_name=creditor.name)
+    send_email_sendgrid(to=debtor.email, subject=subject, text=body)
+    
 
     task.status = "filled"
     task.save()

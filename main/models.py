@@ -156,6 +156,15 @@ class MessageTemplateRouter(models.Model):
                 setattr(self, key, CustomSMSTemplate.objects.create(title=key, template=draft))
         except KeyError as e:
             raise ValueError(f"Missing required key in new_templates: {e}")
+        
+class EmailTemplate(models.Model):
+    type = models.CharField(max_length=250)
+    subject = models.CharField(max_length=250)
+    
+    body = models.TextField()
+
+    def __str__(self):
+        return self.type
 
 
     

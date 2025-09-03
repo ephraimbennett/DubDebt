@@ -31,7 +31,9 @@
                 <a href="{% url 'portal-payments' %}"
                     class="sidebar-link{% if section == 'payments' %} active{% endif %}">Payments</a>
                 <a href="{% url 'portal-templates' %}"
-                    class="sidebar-link{% if section == 'Templates' %} active{% endif %}">Templates</a>
+                    class="sidebar-link{% if section == 'templates' %} active{% endif %}">SMS Templates</a>
+                <a href="{% url 'portal-etemplates' %}"
+                    class="sidebar-link{% if section == 'etemplates' %} active{% endif %}">Email Templates</a>
                 <a href="{% url 'portal-support' %}"
                     class="sidebar-link{% if section == 'support' %} active{% endif %}">Support</a>
                 <a href="{% url 'portal-settings' %}"

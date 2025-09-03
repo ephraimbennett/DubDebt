@@ -250,7 +250,8 @@ def sms_send_view(request):
                        amount=(debt.amount + debt.interest),
                        due_date = debt.incur_date,
                        pay_link=f"{url}",
-                       date=debt.incur_date)
+                       date=debt.incur_date,
+                       unsubscribe_link="https://secure.dubdebt.com/")
     subject = email_template.subject.format(business_name=creditor.name)
     send_email_sendgrid(to=debtor.email, subject=subject, text=body)
     

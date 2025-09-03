@@ -96,6 +96,24 @@ class CustomSMSTemplate(models.Model):
 
     def __str__(self):
         return self.title
+    
+class EmailCustomTemplate(models.Model):
+    type = models.CharField(max_length=250)
+    subject = models.CharField(max_length=250)
+    
+    body = models.TextField()
+
+    def __str__(self):
+        return self.type
+
+class EmailTemplate(models.Model):
+    type = models.CharField(max_length=250)
+    subject = models.CharField(max_length=250)
+    
+    body = models.TextField()
+
+    def __str__(self):
+        return self.type
 
 class MessageTemplateRouter(models.Model):
 
@@ -111,6 +129,15 @@ class MessageTemplateRouter(models.Model):
     
     followup2 = models.ForeignKey(CustomSMSTemplate, on_delete=models.SET_NULL, 
                                       null=True, blank=True, related_name="router2")
+    
+    # foreign keys for the email CUSTOM templates
+    email_initial = models.ForeignKey(EmailCustomTemplate, on_delete=models.SET_NULL, null=True,
+                                       blank=True, related_name="router_init")
+    email_followup1 = models.ForeignKey(EmailCustomTemplate, on_delete=models.SET_NULL, null=True,
+                                        blank=True,related_name="router1")
+    email_followup2 = models.ForeignKey(EmailCustomTemplate, on_delete=models.SET_NULL, null=True,
+                                        blank=True,related_name="router2")
+    
     
     def __str__(self):
         return f"Message Router for {str(self.user)}"
@@ -135,6 +162,25 @@ class MessageTemplateRouter(models.Model):
             # Handle case where no template exists
             return None
     
+    def get_email_template(self, message_type):
+        field_map = {
+            'initial': self.email_initial,
+            'followup1': self.email_followup1,
+            'followup2': self.email_followup2
+        }
+
+        custom_template = field_map.get(message_type)
+        if custom_template:
+            return custom_template
+
+        try:
+            default_template = EmailTemplate.objects.get(type=message_type)
+            return default_template
+        except MessageTemplate.DoesNotExist:
+            # Handle case where no template exists
+            return None
+
+
     def set_template(self, new_templates):
         field_map = {
             'initial': 'initial',
@@ -156,17 +202,28 @@ class MessageTemplateRouter(models.Model):
                 setattr(self, key, CustomSMSTemplate.objects.create(title=key, template=draft))
         except KeyError as e:
             raise ValueError(f"Missing required key in new_templates: {e}")
-        
-class EmailTemplate(models.Model):
-    type = models.CharField(max_length=250)
-    subject = models.CharField(max_length=250)
-    
-    body = models.TextField()
 
-    def __str__(self):
-        return self.type
-
-
+    def set_email_template(self, new_templates):
+        try:
+            key = "email_" + new_templates['key']
+            subject = new_templates['subject']
+            draft = new_templates['draft']
+            custom = getattr(self, key)
+            print(custom)
+            if custom:
+                # Update the template attribute of the existing CustomSMSTemplate
+                custom = getattr(self, key)
+                custom.body = draft
+                custom.subject = subject
+                custom.type = new_templates['key']
+                custom.save()
+            else:
+                # Create a new CustomSMSTemplate and assign it to the appropriate attribute
+                setattr(self, key, EmailCustomTemplate.objects.create(type=new_templates['key'], 
+                                                                      body=draft, subject=subject))
+                self.save()
+        except KeyError as e:
+            raise ValueError(f"Missing required key in new_templates: {e}")
     
 class Payment(models.Model):
     debt = models.OneToOneField(Debt, on_delete=models.CASCADE, related_name="payment", 

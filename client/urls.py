@@ -40,7 +40,9 @@ urlpatterns = [
     path('portal-settings/method-data/', views_settings.method_data, name="method-data"),
 
     path('portal-templates/', views_templates.templates, name="portal-templates"),
+    path('portal-etemplates', views_templates.etemplates, name="portal-etemplates"),
     path('portal-templates/set-templates/', views_templates.set_message_template, name="templates-set-message-templates"),
+    path('portal-templates/set-emails/', views_templates.set_email_template, name="templates-set-email-templates"),
 
     path('portal-support/', views_support.support, name="portal-support"),
     path('portal-support/raise-issue/', views_support.raise_issue, name="support-raise-issue"),
